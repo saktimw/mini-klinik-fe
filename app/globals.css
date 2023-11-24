@@ -2,26 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+@layer components {
+    .scrollbar::-webkit-scrollbar {
+        @apply w-2 bg-base-background;
+    }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
+    .scrollbar::-webkit-scrollbar-thumb {
+        @apply bg-neutral-300 rounded-full;
+    }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    .scrollbar::-webkit-scrollbar-thumb:hover {
+        @apply bg-neutral-400;
+    }
+
+    /* component base */
+    .base-card {
+        @apply p-2 bg-white-card border border-white-stroke rounded-md;
+    }
+
+    .base-badge {
+        @apply bg-base-background border border-white-stroke rounded-full
+    }
+
+    .base-badge-sm {
+        @apply font-medium tracking-wide text-sm px-2.5
+    }
+
+    /* form */
+    .base-input-label {
+        @apply capitalize text-sm font-medium text-slate-500 mb-2;
+    }
+
+    .base-input {
+        @apply w-full text-secondary-typo border border-slate-400 rounded-[4px] px-3 py-1.5 placeholder:text-neutral-300 placeholder:capitalize focus:ring-1 focus:ring-slate-300 focus:ring-offset-[2.5px] focus:outline-[0.8px] focus:outline-slate-400
+    }
+
+    .base-radio-wrap {
+        @apply flex gap-2;
+    }
+
+    .base-label-radio {
+        @apply capitalize text-sm align-middle font-medium text-slate-500 mb-2;
+    }
+
+    .base-input-radio {
+        @apply accent-slate-500 w-[1.15rem] h-[1.15rem];
+    }
+
+    /* button */
+    .base-button {
+        @apply px-3.5 py-1 bg-main text-sm tracking-wide font-medium border-2 border-blue-300 rounded-sm capitalize text-white;
+    }
+
+    .base-button-icon {
+        @apply flex justify-center gap-1 pl-2 pr-3.5 py-1 bg-main text-sm tracking-wide font-medium border-2 border-blue-300 rounded-[0.25rem] capitalize text-white hover:bg-sky-400
+    }
+
+    .button-icon {
+        @apply w-[1.15rem] h-[1.15rem];
+    }
 }
