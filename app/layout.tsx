@@ -5,7 +5,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 // temp
-import { BookPlus, LayoutGrid, LogOut, UserSquare, Users2, Wallet2 } from 'lucide-react';
+import { BookPlus, Home, LayoutGrid, LogOut, UserSquare, Users2, Wallet2 } from 'lucide-react';
 import Image from 'next/image';
 import mklogo from '@/assets/img/mk.png';
 import Link from 'next/link';
@@ -43,7 +43,7 @@ export default function RootLayout({
           <hr className="flex-none w-1/2 mx-auto my-4 border-white-stroke"/>
           <ul className="grow flex flex-col justify-start">
             <li key="resume" className="my-[0.3rem] py-4 hover:bg-main-lighter border-r-2 border-r-main">
-              <Link href="/">
+              <Link href="/pemeriksaan">
                 <BookPlus className="w-[1.3rem] h-[1.3rem] mx-auto text-main"/>
               </Link>
             </li>
@@ -53,13 +53,17 @@ export default function RootLayout({
               </Link>
             </li>
             <li key="billing" className="my-[0.3rem] py-4 hover:bg-main-lighter">
-              <Wallet2 className="w-[1.3rem] h-[1.3rem] mx-auto text-main-typo"/>
+              <Link href="/billing">
+                <Wallet2 className="w-[1.3rem] h-[1.3rem] mx-auto text-main-typo"/>
+              </Link>
             </li>
           </ul>
           {/* menu */}
           <div className="flex-none my-2 mx-auto">
             <div className="p-3 bg-main-lighter rounded-md border border-white-stroke">
-              <LayoutGrid className="w-[1.3rem] h-[1.3rem] text-main-typo" />
+              <Link href="/">
+                <Home className="w-[1.3rem] h-[1.3rem] text-main-typo" />
+              </Link>
             </div>
           </div>
           {/* users & settings */}

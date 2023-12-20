@@ -3,7 +3,7 @@ import { ClipboardEdit, Save, Search, Stethoscope, Syringe, Users2 } from "lucid
 const getData = async () => {
    const res = await fetch('https://jsonplaceholder.typicode.com/users');
    const data = await res.json();
-
+   
    return data;
 }
 
@@ -119,7 +119,7 @@ export default async function Pasien() {
                      {
                         data.map((items: any) => (
                            <tr key={ items.id } className="hover">
-                              <td className="text-center flex gap-1.5">
+                              <td className="text-center flex gap-2">
                                  <button className="tooltip tooltip-right group p-1.5 border border-main rounded-md hover:cursor-pointer hover:border-main" data-tip="ubah data">
                                     <ClipboardEdit className="w-[1.1rem] h-[1.1rem] text-secondary-typo group-hover:text-main" />
                                  </button>

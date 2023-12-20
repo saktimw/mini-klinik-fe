@@ -37,6 +37,7 @@
         @apply w-full text-secondary-typo border border-slate-400 rounded-[4px] px-3 py-1.5 placeholder:text-neutral-300 placeholder:capitalize focus:ring-1 focus:ring-slate-300 focus:ring-offset-[2.5px] focus:outline-[0.8px] focus:outline-slate-400
     }
 
+
     .base-radio-wrap {
         @apply flex gap-2;
     }
@@ -46,6 +47,18 @@
     }
 
     .base-input-radio {
+        @apply accent-slate-500 w-[1.15rem] h-[1.15rem];
+    }
+
+    .base-checkbox-wrap {
+        @apply flex gap-2;
+    }
+
+    .base-label-checkbox {
+        @apply capitalize text-sm align-middle font-medium text-slate-500 mb-2;
+    }
+
+    .base-input-checkbox {
         @apply accent-slate-500 w-[1.15rem] h-[1.15rem];
     }
 
