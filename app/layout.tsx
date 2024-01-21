@@ -1,24 +1,24 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
+import '~/assets/styles/base.css';
 
 const inter = Inter({ subsets: ['latin'] })
 
 // temp
 import { BookPlus, Home, LayoutGrid, LogOut, UserSquare, Users2, Wallet2 } from 'lucide-react';
 import Image from 'next/image';
-import mklogo from '@/assets/img/mk.png';
+import mklogo from '~/assets/img/logo.png';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Mini Klinik',
-  applicationName: 'simrs-fastmu',
+  applicationName: 'mini-klinik',
   authors: [
-    { name: 'Sakti Mundra W' },
+    { name: 'CV.Bapack Sejahtera Istri Minimal Dua' },
   ],
   category: "medical",
   description: 'Electronic Clinic Management',
-  creator: 'Sakti Mundra W',
+  creator: 'Sakti Mundra W, Noor Qomaruddin',
   viewport: 'width=device-width, initial-scale=1"', 
 }
 
@@ -61,7 +61,7 @@ export default function RootLayout({
           {/* menu */}
           <div className="flex-none my-2 mx-auto">
             <div className="p-3 bg-main-lighter rounded-md border border-white-stroke">
-              <Link href="/">
+              <Link href="/test">
                 <Home className="w-[1.3rem] h-[1.3rem] text-main-typo" />
               </Link>
             </div>

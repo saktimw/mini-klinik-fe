@@ -9,10 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "clsx": "^2.0.0",
     "lucide-react": "^0.291.0",
     "next": "13.5.6",
     "react": "^18",
+    "react-datepicker": "^4.25.0",
     "react-dom": "^18",
+    "react-hook-form": "^7.49.2",
+    "react-select": "^5.8.0",
+    "swr": "^2.2.4",
+    "tailwind-merge": "^2.2.0",
     "zustand": "^4.4.4"
   },
   "devDependencies": {

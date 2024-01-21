@@ -62,7 +62,7 @@ export default async function Pasien() {
                </div>
             </div>
             {/* form pasien */}
-            <div className="hidden px-2.5">
+            <div className="px-2.5">
                <form>
                   <div className="flex flex-col gap-3 my-2.5">
                      <div>
