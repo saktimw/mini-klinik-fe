@@ -37,27 +37,15 @@
         @apply text-xs text-right text-red-400 
     }
 
-    .base-radio-wrap {
+    .base-check-wrap {
         @apply flex gap-2 items-center;
     }
 
-    .base-label-radio {
-        @apply capitalize text-sm align-middle font-medium text-slate-500;
+    .base-label-check {
+        @apply text-sm align-middle font-medium text-slate-500;
     }
 
-    .base-input-radio {
-        @apply accent-slate-500 w-[1.15rem] h-[1.15rem];
-    }
-
-    .base-checkbox-wrap {
-        @apply flex gap-2 items-center;
-    }
-
-    .base-label-checkbox {
-        @apply capitalize text-sm align-middle font-medium text-slate-500;
-    }
-
-    .base-input-checkbox {
+    .base-input-check {
         @apply accent-slate-500 w-[1.15rem] h-[1.15rem];
     }
 

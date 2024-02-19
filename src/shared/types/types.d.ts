@@ -7,6 +7,7 @@ interface ButtonIconProps {
    Icon: LucideIcon;
    buttonStyle?: string;
    iconStyle?: string;
+   onClick: (v?: any) => void
 }
 
 interface LinkIconProps {
@@ -31,7 +32,7 @@ interface FormContainerProps {
 }
 
 interface InputProps {
-   type: 'text' | 'number' | 'email' | 'password' | 'hidden';
+   type: 'text' | 'number' | 'email' | 'password' | 'hidden' | 'date';
    title?: string;
    id?: string;
    name: string;
@@ -91,3 +92,23 @@ interface ButtonConfirmProps {
    children: React.ReactElement
 }
 
+interface MenuLinkProps {
+   keyID: string;
+   Icon: LucideIcon;
+   href: string;
+}
+
+interface SearchProps {
+   onEnter: (v: string) => void;
+   placeholder?: string
+}
+
+interface PaginatonProps {
+   current: number;
+   totalPage: number;
+   onChangeValue: (v: any) => void
+}
+
+interface ButtonDateProps {
+   onChange: (v: any) => void;
+}

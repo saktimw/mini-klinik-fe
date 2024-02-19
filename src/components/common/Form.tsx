@@ -96,17 +96,17 @@ const CheckInput = ({
 }: CheckInputProps) => {
       const formCtx = useFormContext();
    return (
-      <div className={`base-${type}-wrap`}>
+      <div className={`base-check-wrap`}>
          <input 
             type={ type }
             id={`${type}-id-${id}`}
-            className={`base-input-${type}`}
+            className={`base-input-check`}
             value={ value }
             { ...formCtx.register(name, rules && rules) }
          />
          <label 
             htmlFor={`${type}-id-${id}`} 
-            className={twMerge(`base-label-${type}`, formCtx.formState.errors[name] && `base-check-error`)}>
+            className={twMerge(`base-label-check`, formCtx.formState.errors[name] && `base-check-error`)}>
                { label }
          </label>
       </div>
