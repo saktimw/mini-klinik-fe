@@ -17,6 +17,7 @@ interface LinkIconProps {
 }
 
 interface ButtonLoadingProps {
+   submit?: boolean,
    Icon?: LucideIcon;
    title: string;
    buttonStyle?: string;
@@ -36,6 +37,20 @@ interface InputProps {
    id?: string;
    name: string;
    value?: any;
+   placeholder?: string;
+   readonly?: boolean;
+   focus?: boolean;
+   rules?: Object
+}
+
+interface InputNumberProps {
+   title?: string;
+   id?: string;
+   name: string;
+   value?: any;
+   min?: any;
+   max?: any;
+   step?: any;
    placeholder?: string;
    readonly?: boolean;
    focus?: boolean;

@@ -4,10 +4,13 @@ import Image from 'next/image';
 import mklogo from '~/assets/img/logo.png';
 import MenuLink from '../common/MenuLink';
 import LinkIcon from '../atoms/LinkIcon';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import ButtonWithConfirm from '../common/ButtonWithConfirm';
+import { LogoutAction } from '~/controllers/auth';
 
 export default function Sidebar() {
    const pathname = usePathname();
+   const router = useRouter();
    return (
       <div className="lg:h-full sm:w-[3.4rem] md:w-[4.4rem] lg:w-[5.4rem] flex flex-col flex-none py-4 border-r border-r-white-stroke bg-white-card overflow-y-auto overflow-x-hidden scrollbar">
          <div className="flex-none">
@@ -37,11 +40,17 @@ export default function Sidebar() {
          </div>
          {/* users & settings */}
          <ul className="grow flex flex-col justify-end">
-         <li className="my-[0.3rem] py-4 hover:bg-main-lighter">
+         <li className="my-[0.3rem] py-4 hover:bg-main-lighter hover:cursor-not-allowed">
             <UserSquare className="w-[1.3rem] h-[1.3rem] mx-auto text-main-typo"/>
          </li>
-         <li className="my-[0.3rem] py-4 hover:bg-main-lighter">
-            <LogOut className="w-[1.3rem] h-[1.3rem] mx-auto text-main-typo"/>
+         <li className="my-[0.3rem] py-4 hover:bg-main-lighter hover:cursor-pointer">
+            <ButtonWithConfirm
+               title="Kunjungan"
+               message={`Keluar dari aplikasi ?`}
+               action={ (act) => LogoutAction(router)} 
+            >
+               <LogOut className="w-[1.3rem] h-[1.3rem] mx-auto text-main-typo"/>
+            </ButtonWithConfirm>
          </li>
          </ul>
       </div>

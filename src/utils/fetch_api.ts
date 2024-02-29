@@ -1,7 +1,7 @@
-import { getCookie, deleteCookie } from "cookies-next"
+import { getCookie } from "cookies-next"
 
 export async function fetcher (url: string, options: RequestInit) {
-   const token = getCookie('token');
+   const token = getCookie('xtoken');
    
    let init: RequestInit = {
       headers: {
