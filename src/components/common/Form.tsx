@@ -1,5 +1,5 @@
 "use client"
-import { CheckInputProps, InputProps, SelectInputProps, TextareaProps } from "~/shared/types/types";
+import { CheckInputProps, InputNumberProps, InputProps, SelectInputProps, TextareaProps } from "~/shared/types/types";
 import { Controller, useFormContext } from "react-hook-form";
 import SelectOption from "~/components/atoms/SelectOption";
 import { twMerge } from "tailwind-merge";
@@ -22,6 +22,37 @@ const Input = ({
             placeholder={ placeholder }
             readOnly={ readonly }
             autoFocus={ focus }
+            { ...formCtx.register(name, rules && rules)}
+         />
+         { formCtx.formState.errors[name] && 
+            <p className="base-error-message">
+               { formCtx.formState.errors[name]?.message?.toString() }
+            </p> }
+      </div>      
+   );
+}
+
+const InputNumber = ({ 
+   id, name, title, placeholder, min, max, step,
+   focus = false, 
+   readonly = false,
+   rules = {}
+}: InputNumberProps) => {
+      const formCtx = useFormContext();
+      
+   return (
+      <div>
+         { title && <label htmlFor={`input-id-${id}`} className="base-input-label">{ title }</label> }
+         <input 
+            type="number"
+            id={`input-id-${id}`}
+            className={twMerge(`base-input`, formCtx.formState.errors[name] && 'base-input-error')}
+            placeholder={ placeholder }
+            readOnly={ readonly }
+            autoFocus={ focus }
+            min={ min }
+            max={ max }
+            step={ step }
             { ...formCtx.register(name, rules && rules)}
          />
          { formCtx.formState.errors[name] && 
@@ -114,5 +145,5 @@ const SelectInput = ({
 }
 
 export {
-   Input, CheckInput, SelectInput, TextareaInput
+   Input, InputNumber, CheckInput, SelectInput, TextareaInput
 }

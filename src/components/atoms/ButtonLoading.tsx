@@ -5,11 +5,12 @@ const ButtonLoading = ({
    Icon,
    title = "Button",
    loading = false,
-   buttonStyle = ''
+   buttonStyle = '',
+   submit = false
 }: ButtonLoadingProps) => {
    return (
       <>
-         <button className={  twMerge('base-button-icon', buttonStyle) }>
+         <button type={ submit ? 'submit' : 'button' } className={  twMerge('base-button-icon', buttonStyle) }>
             { loading 
                ? <span className="loading loading-dots"></span>
                : <>{ Icon && <Icon className="button-icon"/> } <span>{ title }</span></>
