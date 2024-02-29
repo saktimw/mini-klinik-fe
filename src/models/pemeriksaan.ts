@@ -1,7 +1,7 @@
 import { Obat, PemeriksaanResume, PemeriksaanTTV } from "~/shared/types/pemeriksaan";
 import { fetcher } from "~/utils/fetch_api";
 
-const hostname = 'http://localhost:2000/v1/pemeriksaan/';
+const hostname = process.env.apiUrl! + '/pemeriksaan/';
 
 // input pemeriksaan ttv
 export async function post_ttv(data: PemeriksaanTTV) {
@@ -12,7 +12,7 @@ export async function post_ttv(data: PemeriksaanTTV) {
 
    const insert = await fetcher(`${hostname}/ttv`, options);
    try {
-      return insert.json();      
+      return insert.json();
    } catch (error) {
       return false;
    }
@@ -34,7 +34,7 @@ export async function put_ttv(data: PemeriksaanTTV) {
 
    try {
       const updated = await fetcher(`${hostname}/ttv/${data.id}`, options);
-      return updated.json();    
+      return updated.json();
    } catch (error) {
       return false;
    }
@@ -60,9 +60,9 @@ export async function put_resume(data: PemeriksaanResume) {
    const options: RequestInit = {
       method: 'PUT',
       body: JSON.stringify({
-         anamnesis: data.anamnesis, 
-         pemeriksaan_fisik: data.pemeriksaan_fisik, 
-         tata_laksana: data.tata_laksana, 
+         anamnesis: data.anamnesis,
+         pemeriksaan_fisik: data.pemeriksaan_fisik,
+         tata_laksana: data.tata_laksana,
          edukasi: data.edukasi
       }),
    }

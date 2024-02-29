@@ -1,6 +1,6 @@
 import { fetcher } from "~/utils/fetch_api";
 
-const hostname = 'http://localhost:2000/v1/kunjungan';
+const hostname = process.env.apiUrl! + '/kunjungan';
 
 export async function kunjungan_all(filter = "") {
    const options: RequestInit = {
@@ -8,7 +8,7 @@ export async function kunjungan_all(filter = "") {
    }
 
    try {
-      const data = await fetcher(`${hostname}${filter}`, options); 
+      const data = await fetcher(`${hostname}${filter}`, options);
       return data.json();
 
    } catch (error) {
@@ -26,7 +26,7 @@ export async function post_kunjungan(id: Number) {
 
    try {
       const insert = await fetcher(`${hostname}`, options);
-      
+
       return insert.json();
    } catch (error) {
       return error;
@@ -41,7 +41,7 @@ export async function detail_kunjungan(id: Number) {
 
    try {
       const data = await fetcher(`${hostname}/detail/${id}`, options);
-      
+
       return data.json();
    } catch (error) {
       return error;

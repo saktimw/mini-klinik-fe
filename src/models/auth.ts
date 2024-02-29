@@ -1,6 +1,7 @@
 import { fetcher } from "~/utils/fetch_api";
-
-const hostname = 'http://localhost:2000/v1/auth';
+// import {setConfig} from "next/config";
+// const {  }= setConfig();
+const hostname = process.env.apiUrl! + '/auth';
 
 export async function post_login(data: any) {
    const options: RequestInit = {

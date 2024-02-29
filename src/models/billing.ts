@@ -1,7 +1,7 @@
 import { Billing } from "~/shared/types/billing";
 import { fetcher } from "~/utils/fetch_api";
 
-const hostname = 'http://localhost:2000/v1/billing';
+const hostname = process.env.apiUrl! + '/billing';
 
 // input pemeriksaan obat
 export async function post_billing(data: Billing) {

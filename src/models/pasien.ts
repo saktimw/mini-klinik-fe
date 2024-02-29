@@ -1,7 +1,7 @@
 import { Pasien } from "~/shared/types/pasien";
 import { fetcher } from "~/utils/fetch_api";
 
-const hostname = 'http://localhost:2000/v1/pasien';
+const hostname = process.env.apiUrl! + '/pasien';
 
 // list semua pasien
 export async function pasien_all(filter = "") {
@@ -39,7 +39,7 @@ export async function post_pasien(data: Pasien & { kunjungan: boolean }) {
 
    try {
       const insert = await fetcher(`${hostname}`, options);
-      
+
       return insert.json();
    } catch (error) {
       return error;
