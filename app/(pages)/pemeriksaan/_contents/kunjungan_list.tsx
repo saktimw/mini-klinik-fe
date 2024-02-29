@@ -18,7 +18,7 @@ export default function KunjunganList() {
    return (
       <div className="grow-0 base-card">
          <div className="px-2.5">
-            <div className="flex justify-between gap-2 items-center">
+            <div className="flex justify-between gap-3 items-center">
                <Search 
                   onEnter={ (value) => {
                      pemeriksaanStore.setFilterAll({ keyword: value });

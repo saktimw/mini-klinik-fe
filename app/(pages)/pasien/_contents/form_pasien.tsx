@@ -81,7 +81,8 @@ export default function FormPasien() {
                         )}
                      </div>
                      <div className="flex gap-2">
-                        <ButtonLoading 
+                        <ButtonLoading
+                           submit={ true }
                            buttonStyle="w-full"
                            title={ pasienStore.form_action === 'save' ? 'Simpan' : 'Ubah Data'  }
                            Icon={ pasienStore.form_action === 'save' ? Save : ClipboardEdit }

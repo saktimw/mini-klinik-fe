@@ -14,12 +14,19 @@ export default function FormResep() {
 
    useEffect(() => {
       if (pemeriksaanStore.obat_id) {
+         methods.setValue('act', 'edit')
          setDatatoForm(methods, pemeriksaanStore.obat_id);
-         methods.setValue('id', pemeriksaanStore.pemeriksaan_id?.kunjungan.id)
       } else {
-         methods.reset();
+         methods.setValue('act', 'save')
       }
    }, [pemeriksaanStore.obat_id])
+
+   useEffect(() => {
+      if (pemeriksaanStore.pemeriksaan_id) {
+         methods.reset();
+         methods.setValue('id', pemeriksaanStore.pemeriksaan_id?.kunjungan.id)
+      }
+   }, [pemeriksaanStore.pemeriksaan_id])
 
    return (
       <div className="w-full base-card">
@@ -28,9 +35,8 @@ export default function FormResep() {
             <FormProvider { ...methods }>
                <form onSubmit={ methods.handleSubmit((data) => onSubmitObat(data) ) }>
                   <div className="mt-9">
-                     { pemeriksaanStore.obat_id && (
-                        <Input type="hidden" name="id" />
-                     )}
+                     <Input type="hidden" name="id" />
+                     <Input type="hidden" name="act" />
                      <TextareaInput title="Resep Obat"
                         id="resep" 
                         name="obat"
@@ -41,7 +47,8 @@ export default function FormResep() {
                      />
                   </div>
                   <div className="h-1"></div>
-                  <ButtonLoading 
+                  <ButtonLoading
+                     submit={ true }
                      title={ !pemeriksaanStore.obat_id ? 'Simpan' : 'Ubah Data' }
                      Icon={ !pemeriksaanStore.obat_id ? Save : ClipboardEdit }
                   />

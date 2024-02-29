@@ -15,12 +15,19 @@ export default function FormResume() {
    useEffect(() => {
       
       if (pemeriksaanStore.resume_id) {
+         methods.setValue('act', 'edit')
          setDatatoForm(methods, pemeriksaanStore.resume_id);
-         methods.setValue('id', pemeriksaanStore.pemeriksaan_id?.kunjungan.id)
       } else {
-         methods.reset()
+         methods.setValue('act', 'save')
       }
    }, [pemeriksaanStore.resume_id])
+
+   useEffect(() => {
+      if (pemeriksaanStore.pemeriksaan_id) {
+         methods.reset();
+         methods.setValue('id', pemeriksaanStore.pemeriksaan_id?.kunjungan.id)
+      }
+   }, [pemeriksaanStore.pemeriksaan_id])
 
    return (
       <div className="w-full base-card">
@@ -28,9 +35,8 @@ export default function FormResume() {
             <p className="pl-5 pr-10 py-1 absolute -left-2 -top-2 bg-white-stroke z-12 font-medium text-slate-500 rounded-br-full">Anamnesis</p>
             <FormProvider { ...methods }>
                <form onSubmit={ methods.handleSubmit((data) => onSubmitResume(data)) }>
-                  { pemeriksaanStore.resume_id && (
-                     <Input type="hidden" name="id" />
-                  )}
+                  <Input type="hidden" name="id" />
+                  <Input type="hidden" name="act" />
                   <div className="mt-9 grid grid-cols-2 grid-rows-2 gap-2">
                      <TextareaInput title="Anamnesis"
                         id="anamnesis" name="anamnesis"
@@ -63,6 +69,7 @@ export default function FormResume() {
                   </div>
                   <div className="h-1"></div>
                   <ButtonLoading 
+                     submit={ true }
                      title={ !pemeriksaanStore.resume_id ? 'Simpan' : 'Ubah Data' }
                      Icon={ !pemeriksaanStore.resume_id ? Save : ClipboardEdit }
                   />

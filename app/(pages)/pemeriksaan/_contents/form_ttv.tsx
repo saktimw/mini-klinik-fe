@@ -1,7 +1,7 @@
 "use client"
 import { Save, ClipboardEdit } from 'lucide-react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Input, TextareaInput } from '~/components/common/Form';
+import { Input, InputNumber, TextareaInput } from '~/components/common/Form';
 import ButtonLoading from '~/components/atoms/ButtonLoading';
 import { usePemeriksaanStore } from '~/stores/pemeriksaan_store';
 import { useEffect } from 'react';
@@ -14,12 +14,19 @@ export default function FormTTV() {
 
    useEffect(() => {
       if (pemeriksaanStore.ttv_id) {
+         methods.setValue('act', 'edit')
          setDatatoForm(methods, pemeriksaanStore.ttv_id);
-         methods.setValue('id', pemeriksaanStore.pemeriksaan_id?.kunjungan.id)
       } else {
-         methods.reset();
+         methods.setValue('act', 'save')
       }
    }, [pemeriksaanStore.ttv_id])
+
+   useEffect(() => {
+      if (pemeriksaanStore.pemeriksaan_id) {
+         methods.reset();
+         methods.setValue('id', pemeriksaanStore.pemeriksaan_id?.kunjungan.id)
+      }
+   }, [pemeriksaanStore.pemeriksaan_id])
 
    return (
       <div className="w-full base-card">
@@ -29,9 +36,8 @@ export default function FormTTV() {
                <form onSubmit={ methods.handleSubmit((data) => onSubmitTTV(data)) }>
                   <div className="mt-9 grid grid-cols-5 gap-x-2">
                      <div className="flex items-end gap-1 col-span-2">
-                        { pemeriksaanStore.ttv_id && (
-                           <Input type="hidden" name="id" />
-                        )}
+                        <Input type="hidden" name="id" />
+                        <Input type="hidden" name="act" />
                         <Input type="number" title="Tensi"
                            id="sistole"
                            name="tensi_sistole"
@@ -47,24 +53,27 @@ export default function FormTTV() {
                         />
                      </div>
                      <div>
-                        <Input type="number" title="Suhu (&#8451;)"
+                        <InputNumber title="Suhu (&#8451;)"
                            id="suhu" name="suhu"
+                           step="any"
                            rules={{
                               required: true,
                            }}
                         />
                      </div>
                      <div>
-                        <Input type="number" title="Tinggi (Cm)"
+                        <InputNumber title="Tinggi (Cm)"
                            id="tinggi" name="tinggi"
+                           step="any"
                            rules={{
                               required: true,
                            }}
                         />
                      </div>
                      <div>
-                        <Input type="number" title="Berat (Kg)"
+                        <InputNumber title="Berat (Kg)"
                            id="berat" name="berat"
+                           step="any"
                            rules={{
                               required: true,
                            }}
@@ -81,7 +90,8 @@ export default function FormTTV() {
                      </div>
                   </div>
                   <div className="h-1"></div>
-                  <ButtonLoading 
+                  <ButtonLoading
+                     submit={ true }
                      title={ !pemeriksaanStore.ttv_id ? 'Simpan' : 'Ubah Data' }
                      Icon={ !pemeriksaanStore.ttv_id ? Save : ClipboardEdit }
                   />

@@ -113,6 +113,7 @@ export const setDatatoForm = (methods: UseFormReturn, stateData: any) => {
 export const onSubmitTTV = async (data: any) => {
    const newdata: any = trimData(data);
    let message;
+   console.log(data);
 
    if (!usePemeriksaanStore.getState().pemeriksaan_id) {
       toast.error('Silahkan Pilih Pasien !', {
@@ -121,40 +122,50 @@ export const onSubmitTTV = async (data: any) => {
       return;
    }
 
-   return;
-
    try {
-      if (!newdata.hasOwnProperty('id')) {
-
-         const created = await post_ttv({
-            tensi_sistole: newdata.tensi_sistole,
-            tensi_diastole: newdata.tensi_diastole,
-            berat: newdata.berat,
-            suhu: newdata.suhu,
-            tinggi: newdata.tinggi,
-            keluhan: newdata.keluhan,
-         });
-
-         if (created) {
-            message = "TTV berhasil disimpan"
+      
+      switch (newdata.act) {
+         case "save": {
+            const created = await post_ttv({
+               id: Number(newdata.id),
+               tensi_sistole: newdata.tensi_sistole,
+               tensi_diastole: newdata.tensi_diastole,
+               berat: newdata.berat,
+               suhu: newdata.suhu,
+               tinggi: newdata.tinggi,
+               keluhan: newdata.keluhan,
+            });
+   
+            if (created.status === "Created") {
+               message = "TTV berhasil disimpan"
+            }
          }
-
-      } else {
-         const update = await put_ttv({
-            id: newdata.id,
-            tensi_sistole: newdata.tensi_sistole,
-            tensi_diastole: newdata.tensi_diastole,
-            berat: newdata.berat,
-            suhu: newdata.suhu,
-            tinggi: newdata.tinggi,
-            keluhan: newdata.keluhan,
-         });
-
-         if (update) {            
-            message = 'Data berhasil diperbarui'
+            break;
+         case "edit": {
+            const update = await put_ttv({
+               id: newdata.id,
+               tensi_sistole: newdata.tensi_sistole,
+               tensi_diastole: newdata.tensi_diastole,
+               berat: newdata.berat,
+               suhu: newdata.suhu,
+               tinggi: newdata.tinggi,
+               keluhan: newdata.keluhan,
+            });
+   
+            switch(update.status) {
+               case "Updated": 
+                  message = "Berhasil memperbarui data"
+                  break;
+               case "Not Updated": {
+                  message = "Gagal memperbarui data !"
+                  break;
+               }
+            }
          }
+            break;
       }
 
+      FetchPemeriksaanID();
       toast.success(message, { position: 'top-center' });
       
    } catch (error) {
@@ -173,37 +184,46 @@ export const onSubmitResume = async (data: any) => {
       })
       return;
    }
-
-   return;
    
    try {
-      if (!newdata.hasOwnProperty('id')) {
-
-         const created = await post_resume({
-            anamnesis: newdata.anamnesis,
-            edukasi: newdata.edukasi,
-            pemeriksaan_fisik: newdata.pemeriksaan_fisik,
-            tata_laksana: newdata.tata_laksana
-         });
-
-         if (created) {
-            message = "Anamnesis berhasil disimpan"
+      switch (newdata.act) {
+         case "save": {
+            const created = await post_resume({
+               id: Number(newdata.id),
+               anamnesis: newdata.anamnesis,
+               edukasi: newdata.edukasi,
+               pemeriksaan_fisik: newdata.pemeriksaan_fisik,
+               tata_laksana: newdata.tata_laksana
+            });
+   
+            if (created.status === "Created") {
+               message = "Anamnesis berhasil disimpan"
+            }
+         } 
+            break;
+         case "edit": {
+            const update = await put_resume({
+               id: newdata.id,
+               anamnesis: newdata.anamnesis,
+               edukasi: newdata.edukasi,
+               pemeriksaan_fisik: newdata.pemeriksaan_fisik,
+               tata_laksana: newdata.tata_laksana
+            });
+   
+            switch(update.status) {
+               case "Updated": 
+                  message = "Berhasil memperbarui data"
+                  break;
+               case "Not Updated": {
+                  message = "Gagal memperbarui data !"
+                  break;
+               }
+            }
          }
-
-      } else {
-         const update = await put_resume({
-            id: newdata.id,
-            anamnesis: newdata.anamnesis,
-            edukasi: newdata.edukasi,
-            pemeriksaan_fisik: newdata.pemeriksaan_fisik,
-            tata_laksana: newdata.tata_laksana
-         });
-
-         if (update) {            
-            message = 'Data berhasil diperbarui'
-         }
+            break;
       }
 
+      FetchPemeriksaanID();
       toast.success(message, { position: 'top-center' });
       
    } catch (error) {
@@ -223,29 +243,39 @@ export const onSubmitObat = async (data: any) => {
       return;
    }
    
-   return;
-   
    try {
-      if (!newdata.hasOwnProperty('id')) {
-
-         const created = await post_obat({
-            obat: newdata.obat
-         });
-
-         if (created) {
-            message = "Resep obat berhasil disimpan"
+      switch (newdata.act) {
+         case "save": {
+            const created = await post_obat({
+               id: Number(newdata.id),
+               obat: newdata.obat
+            });
+   
+            if (created.status === "Created") {
+               message = "Resep obat berhasil disimpan"
+            }
          }
-
-      } else {
-         const update = await put_obat({
-            obat: newdata.obat
-         });
-
-         if (update) {            
-            message = 'Data berhasil diperbarui'
+            break;
+         case "edit": {
+            const update = await put_obat({
+               id: Number(newdata.id),
+               obat: newdata.obat
+            });
+   
+            switch(update.status) {
+               case "Updated": 
+                  message = "Berhasil memperbarui data"
+                  break;
+               case "Not Updated": {
+                  message = "Gagal memperbarui data !"
+                  break;
+               }
+            }
          }
+            break;
       }
 
+      FetchPemeriksaanID();
       toast.success(message, { position: 'top-center' });
       
    } catch (error) {
@@ -257,38 +287,47 @@ export const onSubmitObat = async (data: any) => {
 export const onSubmitBilling = async (data: any) => {
    let message;
 
-   if (!usePemeriksaanStore.getState().billing_id) {
+   if (!usePemeriksaanStore.getState().pemeriksaan_id) {
       toast.error('Silahkan Pilih Pasien !', {
          position: 'top-center'
       })
       return;
    }
    
-   return;
-   
    try {
-      if (!data.hasOwnProperty('id')) {
+      switch (data.act) {
+         case "save": {
+            const created = await post_billing({
+               id: data.id,
+               biaya: data.biaya,
+               terbayar: data.terbayar
+            });
 
-         const created = await post_billing({
-            biaya: data.biaya,
-            terbayar: data.terbayar
-         });
-
-         if (created) {
-            message = "Resep obat berhasil disimpan"
+            if (created.status === "Created") {
+               message = "Billing berhasil disimpan"
+            }
          }
+            break;
+         case "edit": {
+            const update = await put_billing({
+               id: data.id,
+               biaya: data.biaya,
+               terbayar: data.terbayar
+            });
 
-      } else {
-         const update = await put_billing({
-            biaya: data.biaya,
-            terbayar: data.terbayar
-         });
-
-         if (update) {            
-            message = 'Data berhasil diperbarui'
+            switch(update.status) {
+               case "Updated": 
+                  message = "Berhasil memperbarui data"
+                  break;
+               case "Not Updated": {
+                  message = "Gagal memperbarui data !"
+                  break;
+               }
+            }
          }
+            break;
       }
-
+      FetchPemeriksaanID();
       toast.success(message, { position: 'top-center' });
       
    } catch (error) {

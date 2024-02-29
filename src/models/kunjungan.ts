@@ -27,7 +27,7 @@ export async function post_kunjungan(id: Number) {
    try {
       const insert = await fetcher(`${hostname}`, options);
       
-      return insert;
+      return insert.json();
    } catch (error) {
       return error;
    }

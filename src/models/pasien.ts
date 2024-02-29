@@ -31,7 +31,7 @@ export async function pasien_id(id: number) {
 }
 
 // input pasien
-export async function post_pasien(data: Pasien) {
+export async function post_pasien(data: Pasien & { kunjungan: boolean }) {
    const options: RequestInit = {
       method: 'POST',
       body: JSON.stringify(data)
@@ -40,7 +40,7 @@ export async function post_pasien(data: Pasien) {
    try {
       const insert = await fetcher(`${hostname}`, options);
       
-      return insert;
+      return insert.json();
    } catch (error) {
       return error;
    }
@@ -63,7 +63,7 @@ export async function put_pasien(data: Pasien) {
 
    try {
       const update = await fetcher(`${hostname}/${data.id}`, options);
-      return update;
+      return update.json();
    } catch (error) {
       return error;
    }

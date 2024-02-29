@@ -12,7 +12,7 @@ export async function post_billing(data: Billing) {
 
    try {
       const insert = await fetcher(`${hostname}`, options);
-      return insert;
+      return insert.json();
    } catch (error) {
       return false;
    }
@@ -23,14 +23,14 @@ export async function put_billing(data: Billing) {
    const options: RequestInit = {
       method: 'PUT',
       body: JSON.stringify({
-         obat: data.biaya,
+         biaya: data.biaya,
          terbayar: data.terbayar
       })
    }
 
    try {
       const updated = await fetcher(`${hostname}/${data.id}`, options);
-      return updated;
+      return updated.json();
    } catch (error) {
       return false;
    }

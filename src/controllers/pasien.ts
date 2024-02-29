@@ -83,9 +83,10 @@ export const onSaveData = async (data: any, methods: UseFormReturn) => {
                tempat_lahir: newdata.tempat_lahir,
                tanggal_lahir: newdata.tanggal_lahir,
                telp: newdata.telp,
+               kunjungan: newdata.kunjungan
             });
 
-            if (created && (!!newdata.kunjungan === true)) {
+            if (created.status === "Created" && (!!newdata.kunjungan === true)) {
                message = "Pasien baru ditambahkan kedalam kunjungan"
             } else {
                message = "Pasien berhasil didaftarkan"
@@ -102,7 +103,7 @@ export const onSaveData = async (data: any, methods: UseFormReturn) => {
                tanggal_lahir: newdata.tanggal_lahir,
                telp: newdata.telp,
             });
-            if (update) {
+            if (update.status === "Updated") {
                usePasienStore.getState().setPasienID(undefined);
                usePasienStore.getState().setFormAction('save');
                message = 'Data berhasil diperbarui'
@@ -124,7 +125,7 @@ export const onSaveData = async (data: any, methods: UseFormReturn) => {
 export const addKunjungan = async () => {
    try {
       const created = await post_kunjungan(usePasienStore.getState().id)
-      if (created) toast.success('Pasien masuk ke dalam kunjungan', {
+      if (created.status === "Created") toast.success('Pasien masuk ke dalam kunjungan', {
          position: 'top-center'
       })
    } catch (error) {

@@ -55,7 +55,11 @@ export default function BillingList() {
                      : billingStore.billing_all.map((items: any) => (
                         <tr key={ no++ } className="hover">
                            <td className="text-center">
-                              <p className="font-normal">10 November 2023</p>
+                              <p className="font-normal">{ new Date(items.kunjungan.tgl_kunjungan).toLocaleDateString('id-ID', {
+                                 day: "2-digit",
+                                 month: "long",
+                                 year: "numeric"
+                              }) }</p>
                            </td>
                            <td className={`font-semibold -tracking-[-0.015rem] ${items?.pasien.jns_kelamin === 'P' ? 'text-pink-500' : 'text-main' }`}>{ items.pasien.nama_lengkap }</td>
                            <td>{` ${items.pasien.alamat}`}</td>
@@ -63,7 +67,7 @@ export default function BillingList() {
                               (!items.billing.biaya && !items.billing.terbayar) 
                                  ? (
                                     <td className="text-center" colSpan={ 2 }>
-                                       <div className="inline-block rounded-full px-2.5 py-0.5 bg-red-200 text-red-700 font-medium">Belum Bayar</div>
+                                       <div className="inline-block rounded-full px-5 py-0.5 bg-red-200 text-red-700 font-medium">Belum Bayar</div>
                                     </td>
                                  )
                                  : (
@@ -71,7 +75,7 @@ export default function BillingList() {
                                        <td className="text-center">
                                           <p className="text-right">
                                              <span className="text-[0.950rem] font-medium">
-                                                { (items.billing.biaya)?.toLocaleString('id-ID', { 
+                                                { Number(items.billing.biaya)?.toLocaleString('id-ID', { 
                                                    style: 'currency',
                                                    currency: 'IDR'
                                                    }) }

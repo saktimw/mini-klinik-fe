@@ -12,7 +12,7 @@ export async function post_ttv(data: PemeriksaanTTV) {
 
    const insert = await fetcher(`${hostname}/ttv`, options);
    try {
-      return insert;      
+      return insert.json();      
    } catch (error) {
       return false;
    }
@@ -34,7 +34,7 @@ export async function put_ttv(data: PemeriksaanTTV) {
 
    try {
       const updated = await fetcher(`${hostname}/ttv/${data.id}`, options);
-      return updated;    
+      return updated.json();    
    } catch (error) {
       return false;
    }
@@ -49,7 +49,7 @@ export async function post_resume(data: PemeriksaanResume) {
 
    try {
       const insert = await fetcher(`${hostname}/resume`, options);
-      return insert;
+      return insert.json();
    } catch (error) {
       return false;
    }
@@ -69,7 +69,7 @@ export async function put_resume(data: PemeriksaanResume) {
 
    try {
       const updated = await fetcher(`${hostname}/resume/${data.id}`, options);
-      return updated;
+      return updated.json();
    } catch (error) {
       return false;
    }
@@ -84,7 +84,7 @@ export async function post_obat(data: Obat) {
 
    try {
       const insert = await fetcher(`${hostname}/obat`, options);
-      return insert;
+      return insert.json();
    } catch (error) {
       return false;
    }
@@ -101,7 +101,7 @@ export async function put_obat(data: Obat) {
 
    try {
       const updated = await fetcher(`${hostname}/obat/${data.id}`, options);
-      return updated;
+      return updated.json();
    } catch (error) {
       return false;
    }
