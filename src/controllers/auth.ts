@@ -1,7 +1,6 @@
 "use client"
 
 import { deleteCookie, setCookie } from "cookies-next";
-import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { post_login } from "~/models/auth";
 import { useAuthStore } from "~/stores/auth_store";
@@ -17,13 +16,19 @@ export const LoginAction = async (data: any, router: any) => {
          case "Not Found": 
             toast.warning(login.message, { position: 'top-center' });
             break;
+         case "Conflict": 
+            toast.warning(login.message, { position: 'top-center' });
+            break;
          case "Ok": {
             let currdate = new Date();
             currdate.setDate(currdate.getDate() + 8);
             setCookie('xtoken', login.data.token, {
                expires: currdate
             });
-            router.push('/home');
+            setCookie('xrole', login.data.role, {
+               expires: currdate
+            });
+            router.replace('/home');
             break;
          }
       }
@@ -37,5 +42,6 @@ export const LoginAction = async (data: any, router: any) => {
 export const LogoutAction = (router: any ) => {
 
    deleteCookie('xtoken');
+   deleteCookie('xrole');
    router.push('/login');
 }

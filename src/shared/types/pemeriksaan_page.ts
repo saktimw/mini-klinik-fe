@@ -1,7 +1,7 @@
 import { Billing } from "./billing"
 import { Kunjungan } from "./kunjungan"
 import { Pasien } from "./pasien"
-import { Obat, PemeriksaanResume, PemeriksaanTTV } from "./pemeriksaan"
+import { PemeriksaanResume, PemeriksaanTTV } from "./pemeriksaan"
 
 export interface BaseFilter {
    page: number,
@@ -10,6 +10,11 @@ export interface BaseFilter {
    lastPage: number,
    keyword: string,
    tanggal?: string
+}
+
+export interface HistoryDetail {
+   resume: PemeriksaanResume,
+   ttv: PemeriksaanTTV
 }
 
 export interface KunjunganAll {
@@ -25,8 +30,10 @@ export interface PemeriksaanState {
    pemeriksaan_id: KunjunganAll | undefined;
    ttv_id: PemeriksaanTTV | null;
    resume_id: PemeriksaanResume | null;
-   obat_id: Obat | null
-   billing_id: Billing | null
+   billing_id: Billing | null;
+   all_history: any[] | undefined
+   history_id: any | null;
+   history_detail: HistoryDetail | undefined
 }
 
 export interface PemeriksaanActions {
@@ -36,9 +43,12 @@ export interface PemeriksaanActions {
    setPemeriksaanID: (id: any) => void;
    setTtvID: (data: any) => void;
    setResumeID: (data: any) => void;
-   setObatID: (data: any) => void;
    setBillingID: (data: any) => void;
+   setHistoryAll: (data: any) => void;
+   setHistoryID: (data: any) => void;
+   setHistoryDetail: (data: any) => void;
    resetPemeriksaan: () => void;
    resetFilter: () => void;
    resetFilterExceptTanggal: (d?: any) => void;
+   reset: () => void;
 }

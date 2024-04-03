@@ -1,13 +1,17 @@
 "use client"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Pagination from "~/components/common/Pagination"
 import Search from "~/components/common/Search"
 import { FetchAllBilling } from "~/controllers/billing"
 import { useBillingStore } from "~/stores/billing_store"
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import { ChevronDown } from "lucide-react"
 
 export default function BillingList() {
    
    const billingStore = useBillingStore()
+   const [date, setDate] = useState(new Date());
    
    useEffect(() => {
       billingStore.resetFilter();
@@ -18,13 +22,35 @@ export default function BillingList() {
 
    return (
       <div className="base-card">
-         <div className="lg:w-9/12 mx-auto">
-            <Search 
-               onEnter={(v) => {
-                  billingStore.setFilterAll({ keyword: v });
+         <div className="flex justify-center items-center gap-5">
+            <div className="lg:w-5/12">
+               <Search 
+                  onEnter={(v) => {
+                     billingStore.setFilterAll({ keyword: v });
+                     FetchAllBilling();
+                  }}
+                  placeholder="Ketik untuk mencari pasien [Enter]"
+               />
+            </div>
+            <DatePicker
+               selected={ date }
+               onChange={ (d: any) => {
+                  setDate(d);
+                  billingStore.setFilterAll({ tanggal: new Date(d).toLocaleDateString('fr-CA') })
                   FetchAllBilling();
                }}
-               placeholder="Ketik untuk mencari pasien [Enter]"
+               customInput= { 
+                  <button className="flex items-center group py-3 border-b border-white-stroke mb-3">
+                     <p className="text-sm ml-2 mr-4 text-slate-400">
+                        { new Date(date).toLocaleDateString('id-ID', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric'
+                     }) }
+                     </p>
+                     <ChevronDown className="w-[1.5rem] h-[1.5rem] text-slate-400"/>
+                  </button>
+               }
             />
          </div>
          <div className="overflow-x-auto scrollbar">
@@ -95,14 +121,16 @@ export default function BillingList() {
                </tbody>
             </table>
          </div>
-         <Pagination  
-            current={ billingStore.all_filter.page }
-            totalPage={ billingStore.all_filter.lastPage }
-            onChangeValue={ (val) => {
-               billingStore.setFilterAll({ page: val })
-               FetchAllBilling(); 
-            }}
-         />
+         <div className="my-4 mx-4">
+            <Pagination  
+               current={ billingStore.all_filter.page }
+               totalPage={ billingStore.all_filter.lastPage }
+               onChangeValue={ (val) => {
+                  billingStore.setFilterAll({ page: val })
+                  FetchAllBilling(); 
+               }}
+            />
+         </div>
       </div>
    )
 }

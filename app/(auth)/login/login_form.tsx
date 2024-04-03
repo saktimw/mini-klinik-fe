@@ -40,15 +40,17 @@ export default function LoginForm() {
                         required: true
                      }}
                   />
-                  <ButtonIcon
-                     buttonStyle="absolute top-1 right-3 border-none"
-                     iconStyle="text-slate-400"
-                     Icon={ hidden ? EyeOff : Eye }
+                  <div className="absolute top-1/4 right-4"
                      onClick={(e) => {
                         e.preventDefault();
                         setHidden(!hidden)
                      }}
-                  />
+                  >
+                     { hidden
+                        ? (<EyeOff className="w-[1.1rem] h-[1.1rem] text-slate-400" />) 
+                        : (<Eye className="w-[1.1rem] h-[1.1rem] text-slate-400" />) 
+                     }
+                  </div>
                </div>
                <div className="h-5"></div>
                <ButtonLoading

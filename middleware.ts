@@ -1,37 +1,46 @@
-import { getCookie } from 'cookies-next';
+import { deleteCookie, getCookie } from 'cookies-next';
 import { NextResponse } from 'next/server';
 import type { NextFetchEvent, NextRequest } from 'next/server';
 
-export function middleware(req: NextRequest, ev: NextFetchEvent) {
+export async function middleware(req: NextRequest, ev: NextFetchEvent) {
    const res = NextResponse.next();
-   let cookies = getCookie('xtoken', { req, res});
-   const hostname = 'http://localhost:3000/v1'
+   let token = getCookie('xtoken', {req, res});
+   const hostname = 'http://localhost:2000/v1'
    
    if (req.nextUrl.pathname.startsWith('/login')) {
-      if (cookies) {
-         ev.waitUntil( fetch(`${hostname}/signin`, {
-            headers: { Authorization: cookies }
-         }).then((r) => {
-            if (r.status === 200) 
-               return NextResponse.redirect(new URL('/home', req.url))
-            else 
-               return res;
-      }));
+      if (token) {
+         const check = await (await fetch(`${hostname}/signin`, {
+            headers: { 
+               'Content-type': 'application/json',
+               Authorization: token 
+            }
+         })).json()
+         
+         if (check.status === "Ok") 
+            return NextResponse.redirect(new URL('/home', req.url));
+         else 
+            return res;
+
       } else return res;
    } else {
-      if (cookies) {
-         ev.waitUntil( fetch(`${hostname}/signin`, {
-            headers: { Authorization: cookies }
-         }).then((r) => {
-            if (r.status === 200) 
-               return res;
-            else 
-               return NextResponse.redirect(new URL('/login', req.url))
-         }))
+      if (token) {
+         const check = await (await fetch(`${hostname}/signin`, {
+            headers: { 
+               'Content-type': 'application/json',
+               Authorization: token 
+            }
+         })).json()
+
+         if (check.status === "Ok") 
+            return res;
+         else {
+            deleteCookie('xtoken', { req, res });
+            deleteCookie('xrole', { req, res });
+            return NextResponse.redirect(new URL('/login', req.url))
+         }
+         
       } else return NextResponse.redirect(new URL('/login', req.url))
    }
-
-   return res;
 }
 
 export const config = {

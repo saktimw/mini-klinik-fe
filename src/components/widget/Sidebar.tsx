@@ -7,30 +7,42 @@ import LinkIcon from '../atoms/LinkIcon';
 import { usePathname, useRouter } from 'next/navigation';
 import ButtonWithConfirm from '../common/ButtonWithConfirm';
 import { LogoutAction } from '~/controllers/auth';
+import { getCookie } from 'cookies-next';
+import { useEffect, useState } from 'react';
 
 export default function Sidebar() {
    const pathname = usePathname();
    const router = useRouter();
+   const role: any = getCookie('xrole')
+   
+   const [myrole, setMyrole] = useState("")
+
+   useEffect(() => {
+      setMyrole(role);
+   }, [])
+   
    return (
       <div className="lg:h-full sm:w-[3.4rem] md:w-[4.4rem] lg:w-[5.4rem] flex flex-col flex-none py-4 border-r border-r-white-stroke bg-white-card overflow-y-auto overflow-x-hidden scrollbar">
          <div className="flex-none">
-         <Image 
-            src={ mklogo }
-            className="w-[40%] mx-auto"
-            alt="logo"
-         />
+            <Image 
+               src={ mklogo }
+               className="w-[40%] mx-auto"
+               alt="logo"
+            />
          </div>
          <hr className="flex-none w-1/2 mx-auto my-4 border-white-stroke"/>
          <ul className="grow flex flex-col justify-start">
-         <MenuLink keyID="resume" href="/pemeriksaan"
-            Icon={ BookPlus }
-         />
-         <MenuLink keyID="pasien" href="/pasien"
-            Icon={ Users2 }
-         />
-         <MenuLink keyID="billing" href="/billing"
-            Icon={ Wallet2 }
-         />
+            <MenuLink keyID="resume" href="/pemeriksaan"
+               Icon={ BookPlus }
+            />
+            <MenuLink keyID="pasien" href="/pasien"
+               Icon={ Users2 }
+            />
+            { myrole === "dokter" && (
+               <MenuLink keyID="billing" href="/billing"
+                  Icon={ Wallet2 }
+               />
+            )}
          </ul>
          {/* menu */}
          <div className="flex-none my-2 mx-auto">
@@ -47,7 +59,7 @@ export default function Sidebar() {
             <ButtonWithConfirm
                title="Kunjungan"
                message={`Keluar dari aplikasi ?`}
-               action={ (act) => LogoutAction(router)} 
+               action={ (act) => act && LogoutAction(router)} 
             >
                <LogOut className="w-[1.3rem] h-[1.3rem] mx-auto text-main-typo"/>
             </ButtonWithConfirm>

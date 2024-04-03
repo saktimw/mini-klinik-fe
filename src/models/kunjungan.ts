@@ -49,3 +49,18 @@ export async function detail_kunjungan(id: Number) {
 
 }
 
+export async function history_all(id: number) {
+
+   const options: RequestInit = {
+      method: 'GET'
+   }
+
+   try {
+      const data = await fetcher(`${hostname}/history/${id}`, options);
+      
+      return data.json();
+   } catch (error) {
+      return error;
+   }
+
+}

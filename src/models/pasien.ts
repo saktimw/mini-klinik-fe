@@ -52,6 +52,7 @@ export async function put_pasien(data: Pasien) {
    const options: RequestInit = {
       method: 'PUT',
       body: JSON.stringify({
+         nik: data.nik,
          nama_lengkap: data.nama_lengkap,
          alamat: data.alamat,
          telp: data.telp,

@@ -1,7 +1,11 @@
+import { cookies } from "next/headers";
 import ToastifyContainer from "~/components/atoms/ToastifyContainer";
 import Sidebar from "~/components/widget/Sidebar";
 
 export default function BaseLayout({ children }: { children: React.ReactNode }) {
+   const cookiesStore = cookies();
+   const role = cookiesStore.get('xrole');
+   
    return (
       <>
          <ToastifyContainer />

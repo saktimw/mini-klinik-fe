@@ -3,7 +3,7 @@ import { Save, ClipboardEdit, RotateCcw } from 'lucide-react'
 import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form'
 import ButtonLoading from '~/components/atoms/ButtonLoading';
-import { CheckInput, Input, TextareaInput } from '~/components/common/Form';
+import { CheckInput, Input, InputNumber, TextareaInput } from '~/components/common/Form';
 import { usePasienStore } from '~/stores/pasien_store';
 import { FetchIDtoForm, onSaveData } from '~/controllers/pasien';
 import ButtonIcon from '~/components/atoms/ButtonIcon';
@@ -28,6 +28,11 @@ export default function FormPasien() {
                         { pasienStore.pasien_id && (
                            <Input type="hidden" name="id" />
                         )}
+                        <InputNumber title="NIK / No.KTP" 
+                           id="nik" name="nik"
+                           max="16"
+                           min="1"
+                        />
                         <Input type="text" title="Nama Lengkap"
                            id="nama" name="nama_lengkap"
                            rules={{

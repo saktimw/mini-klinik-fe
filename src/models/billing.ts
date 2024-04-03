@@ -3,7 +3,22 @@ import { fetcher } from "~/utils/fetch_api";
 
 const hostname = process.env.apiUrl! + '/billing';
 
-// input pemeriksaan obat
+// ambil list billing
+export async function billing_all(filter = "") {
+   const options: RequestInit = {
+      method: 'GET'
+   }
+
+   try {
+      const data = await fetcher(`${hostname}${filter}`, options);
+      return data.json();
+
+   } catch (error) {
+      return error;
+   }
+}
+
+// input billing
 export async function post_billing(data: Billing) {
    const options: RequestInit = {
       method: 'POST',
@@ -18,7 +33,7 @@ export async function post_billing(data: Billing) {
    }
 }
 
-// update pemeriksaan resume
+// update billing
 export async function put_billing(data: Billing) {
    const options: RequestInit = {
       method: 'PUT',

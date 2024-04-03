@@ -28,7 +28,7 @@ export async function put_ttv(data: PemeriksaanTTV) {
          berat: data.berat,
          suhu: data.suhu,
          tinggi: data.tinggi,
-         keluhan: data.keluhan,
+         spo2: data.spo2,
       })
    }
 
@@ -60,9 +60,10 @@ export async function put_resume(data: PemeriksaanResume) {
    const options: RequestInit = {
       method: 'PUT',
       body: JSON.stringify({
-         anamnesis: data.anamnesis,
+         diagnosis: data.diagnosis,
+         keluhan: data.keluhan,
          pemeriksaan_fisik: data.pemeriksaan_fisik,
-         tata_laksana: data.tata_laksana,
+         resep_obat: data.resep_obat,
          edukasi: data.edukasi
       }),
    }
@@ -74,36 +75,3 @@ export async function put_resume(data: PemeriksaanResume) {
       return false;
    }
 }
-
-// input pemeriksaan obat
-export async function post_obat(data: Obat) {
-   const options: RequestInit = {
-      method: 'POST',
-      body: JSON.stringify(data)
-   }
-
-   try {
-      const insert = await fetcher(`${hostname}/obat`, options);
-      return insert.json();
-   } catch (error) {
-      return false;
-   }
-}
-
-// update pemeriksaan resume
-export async function put_obat(data: Obat) {
-   const options: RequestInit = {
-      method: 'PUT',
-      body: JSON.stringify({
-         obat: data.obat,
-      })
-   }
-
-   try {
-      const updated = await fetcher(`${hostname}/obat/${data.id}`, options);
-      return updated.json();
-   } catch (error) {
-      return false;
-   }
-}
-

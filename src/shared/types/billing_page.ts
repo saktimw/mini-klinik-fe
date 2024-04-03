@@ -10,14 +10,14 @@ export interface BaseFilter {
    keyword: string
 }
 
-export interface KunjunganAll {
+export interface BillingAll {
    pasien: Pasien;
    billing: Billing;
    kunjungan: Kunjungan;
 }
 
 export interface BillingState {
-   billing_all: KunjunganAll[];
+   billing_all: BillingAll[];
    all_loading: boolean;
    all_filter: BaseFilter
 }
