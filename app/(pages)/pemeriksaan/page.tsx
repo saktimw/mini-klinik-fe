@@ -11,7 +11,7 @@ export const revalidate = 0;
 export default function Pemeriksaan() {
   const role = getCookie('xrole', { cookies })
   
-  return (
+  return role && (
     <>
         <div className="w-full lg:w-3/12 mr-2">
           <PasienInfo />
