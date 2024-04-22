@@ -10,12 +10,12 @@ export default function LoginPage() {
          <div className="px-10 py-6 my-auto">
             <p className="text-xs text-secondary-typo font-semibold tracking-wide uppercase text-center">welcome to</p>
             <div className="w-full flex justify-center items-center mt-1.5 mb-6">
-               <Image 
+               {/* <Image 
                   src={ mklogo }
                   className="w-7 h-7"
                   alt="mk-logo"
-               />
-               <p className="tracking-wide text-xl text-main font-bold uppercase mx-2">Mini Klinik</p>
+               /> */}
+               <p className="tracking-wide text-lg text-main font-bold mx-2">DPM dr. Luluk Andani</p>
             </div>
             <div className="w-5/6 mx-auto">
                <LoginForm />
@@ -38,7 +38,7 @@ export default function LoginPage() {
                   className="w-[3.5rem] h-[3.5rem] brightness-0 invert mx-auto"
                   alt="mk-logo"
                />
-               <p className="text-center tracking-wide text-2xl text-white font-bold uppercase mt-2.5 mb-3">Mini Klinik</p>
+               <p className="text-center tracking-wide text-xl text-white font-bold mt-2.5 mb-3">DPM dr. Luluk Andani</p>
                <p className="text-center text-white text-sm">Pelayanan CEPAT, dengan langkah TEPAT</p>
             </div>
          </div>

@@ -35,7 +35,8 @@ export default function FormBilling() {
             <FormProvider { ...methods }>
                <form onSubmit={ methods.handleSubmit((data) => onSubmitBilling(data) ) }>
                   <div className="mt-7">
-                     
+                     <Input type="hidden" name="id" />
+                     <Input type="hidden" name="act" />
                      <Input type="number"
                         id="biaya" 
                         name="biaya"
