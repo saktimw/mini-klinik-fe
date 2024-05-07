@@ -28,10 +28,10 @@ export default function FormPasien() {
                         { pasienStore.pasien_id && (
                            <Input type="hidden" name="id" />
                         )}
-                        <InputNumber title="NIK / No.KTP" 
+                        <Input type="text" title="NIK / No.KTP" 
                            id="nik" name="nik"
-                           max="16"
-                           min="1"
+                           maxlength={ 16 }
+                           minlength={ 1 }
                         />
                         <Input type="text" title="Nama Lengkap"
                            id="nama" name="nama_lengkap"

@@ -37,6 +37,8 @@ interface InputProps {
    id?: string;
    name: string;
    value?: any;
+   minlength?: number;
+   maxlength?: number;
    placeholder?: string;
    readonly?: boolean;
    focus?: boolean;
