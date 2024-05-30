@@ -28,6 +28,9 @@ export const LoginAction = async (data: any, router: any) => {
             setCookie('xrole', login.data.role, {
                expires: currdate
             });
+            setCookie('xnama', login.data.nama, {
+               expires: currdate
+            });
             router.replace('/home');
             break;
          }

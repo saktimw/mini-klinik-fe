@@ -1,22 +1,37 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useEffect, useReducer, useState } from "react"
 import Pagination from "~/components/common/Pagination"
 import Search from "~/components/common/Search"
 import { FetchAllBilling } from "~/controllers/billing"
 import { useBillingStore } from "~/stores/billing_store"
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, Download } from "lucide-react"
+import ButtonIcon from "~/components/atoms/ButtonIcon"
+import ButtonLoading from "~/components/atoms/ButtonLoading"
 
 export default function BillingList() {
    
    const billingStore = useBillingStore()
-   const [date, setDate] = useState(new Date());
+   const [fromDate, setFromDate] = useState(new Date());
+   const [toDate, setToDate] = useState(new Date());
    
    useEffect(() => {
       billingStore.resetFilter();
       FetchAllBilling();
    }, [])
+
+   useEffect(() => {
+      if (fromDate > toDate) setToDate(fromDate) 
+   }, [fromDate])
+   
+   useEffect(() => {
+      billingStore.setFilterAll({ 
+         tanggal: new Date(fromDate).toLocaleDateString('fr-CA'),
+         sampai: new Date(toDate).toLocaleDateString('fr-CA') 
+      }) 
+      FetchAllBilling();
+   }, [fromDate, toDate])
 
    let no = 1;
 
@@ -32,25 +47,51 @@ export default function BillingList() {
                   placeholder="Ketik untuk mencari pasien [Enter]"
                />
             </div>
-            <DatePicker
-               selected={ date }
-               onChange={ (d: any) => {
-                  setDate(d);
-                  billingStore.setFilterAll({ tanggal: new Date(d).toLocaleDateString('fr-CA') })
-                  FetchAllBilling();
-               }}
-               customInput= { 
-                  <button className="flex items-center group py-3 border-b border-white-stroke mb-3">
-                     <p className="text-sm ml-2 mr-4 text-slate-400">
-                        { new Date(date).toLocaleDateString('id-ID', {
+            <div className="flex items-center group py-3 border-b border-white-stroke mb-3">
+               <DatePicker
+                  selected={ fromDate }
+                  startDate={ fromDate }
+                  endDate={ toDate }
+                  onChange={ (d: any) => {
+                     setFromDate(d);
+                  }}
+                  customInput= { 
+                     <p className="text-sm mx-2 text-slate-400">
+                        { new Date(fromDate).toLocaleDateString('id-ID', {
                         day: '2-digit',
                         month: 'long',
                         year: 'numeric'
                      }) }
                      </p>
-                     <ChevronDown className="w-[1.5rem] h-[1.5rem] text-slate-400"/>
-                  </button>
-               }
+                  }
+                  selectsStart
+               />
+               <p className="text-slate-400">-</p>
+               <DatePicker
+                  selected={ toDate }
+                  startDate={ fromDate }
+                  endDate={ toDate }
+                  minDate={ fromDate }
+                  onChange={ (d: any) => {
+                     setToDate(d)
+                  }}
+                  customInput= { 
+                     <p className="text-sm mx-2 text-slate-400">
+                        { new Date(toDate).toLocaleDateString('id-ID', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric'
+                     }) }
+                     </p>
+                  }
+                  selectsEnd
+               /> 
+               <ChevronDown className="w-[1.5rem] h-[1.5rem] text-slate-400"/>
+            </div>
+            <ButtonLoading 
+               title="Excel"
+               Icon={ Download }
+               buttonStyle="bg-green-500 border-green-400 hover:bg-green-400"
             />
          </div>
          <div className="overflow-x-auto scrollbar">

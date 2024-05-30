@@ -22,6 +22,7 @@ interface ButtonLoadingProps {
    title: string;
    buttonStyle?: string;
    loading?: true | false
+   onClick?: (v?: any) => void
 }
 
 // Common components props
@@ -98,6 +99,7 @@ interface MenuLinkProps {
    keyID: string;
    Icon: LucideIcon;
    href: string;
+   onClick?: () => void;
 }
 
 interface SearchProps {
