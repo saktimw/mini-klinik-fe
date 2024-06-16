@@ -7,7 +7,9 @@ export interface BaseFilter {
    perPage: number,
    total: number,
    lastPage: number,
-   keyword: string
+   keyword: string,
+   tanggal?: Date
+   sampai?: Date
 }
 
 export interface BillingAll {

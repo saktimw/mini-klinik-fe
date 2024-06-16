@@ -2,7 +2,7 @@
 import { useEffect, useReducer, useState } from "react"
 import Pagination from "~/components/common/Pagination"
 import Search from "~/components/common/Search"
-import { FetchAllBilling } from "~/controllers/billing"
+import { FetchAllBilling, FetchDownloadExcel } from "~/controllers/billing"
 import { useBillingStore } from "~/stores/billing_store"
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -88,11 +88,15 @@ export default function BillingList() {
                /> 
                <ChevronDown className="w-[1.5rem] h-[1.5rem] text-slate-400"/>
             </div>
-            <ButtonLoading 
-               title="Excel"
-               Icon={ Download }
-               buttonStyle="bg-green-500 border-green-400 hover:bg-green-400"
-            />
+            { billingStore.billing_all?.length > 0 && (
+               <ButtonLoading 
+                  title="Excel"
+                  Icon={ Download }
+                  buttonStyle="bg-green-500 border-green-400 hover:bg-green-400"
+                  onClick={ () => FetchDownloadExcel() }
+                  loading={ billingStore.excel_loading }
+               />
+            )}
          </div>
          <div className="overflow-x-auto scrollbar">
             <table className="table table-md">
