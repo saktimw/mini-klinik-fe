@@ -1,6 +1,4 @@
-"use client"
-import { redirect } from "next/navigation";
-
+import { RedirectType, redirect } from "next/navigation"
 export default function Home() {
-   return redirect('/home')
+   return redirect('/home', RedirectType.push);
 }

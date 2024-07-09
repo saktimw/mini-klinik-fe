@@ -10,15 +10,16 @@ export interface BaseFilter {
    keyword: string
 }
 
-export interface KunjunganAll {
+export interface BillingAll {
    pasien: Pasien;
    billing: Billing;
    kunjungan: Kunjungan;
 }
 
 export interface BillingState {
-   billing_all: KunjunganAll[];
+   billing_all: BillingAll[];
    all_loading: boolean;
+   excel_loading: boolean;
    all_filter: BaseFilter
 }
 
@@ -26,5 +27,6 @@ export interface BillingActions {
    setFilterAll: (data: Object) => void;
    setBillingAll: (data: any) => void;
    setLoading: (loading: boolean) => void;
+   setExcelLoading: (loading: boolean) => void;
    resetFilter: () => void;
 }

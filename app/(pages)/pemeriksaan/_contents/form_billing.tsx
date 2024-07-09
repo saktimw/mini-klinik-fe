@@ -14,12 +14,19 @@ export default function FormBilling() {
 
    useEffect(() => {
       if (pemeriksaanStore.billing_id) {
+         methods.setValue('act', 'edit')
          setDatatoForm(methods, pemeriksaanStore.billing_id);
-         methods.setValue('id', pemeriksaanStore.pemeriksaan_id?.kunjungan.id)
       } else {
-         methods.reset();
+         methods.setValue('act', 'save')
       }
    }, [pemeriksaanStore.billing_id])
+   
+   useEffect(() => {
+      if (pemeriksaanStore.pemeriksaan_id) {
+         methods.setValue('id', pemeriksaanStore.pemeriksaan_id?.kunjungan.id)
+         methods.reset();
+      }
+   }, [pemeriksaanStore.pemeriksaan_id])
 
    return (
       <div className="w-full base-card">
@@ -28,9 +35,8 @@ export default function FormBilling() {
             <FormProvider { ...methods }>
                <form onSubmit={ methods.handleSubmit((data) => onSubmitBilling(data) ) }>
                   <div className="mt-7">
-                     { pemeriksaanStore.billing_id && (
-                        <Input type="hidden" name="id" />
-                     )}
+                     <Input type="hidden" name="id" />
+                     <Input type="hidden" name="act" />
                      <Input type="number"
                         id="biaya" 
                         name="biaya"
@@ -47,7 +53,8 @@ export default function FormBilling() {
                      </div>
                   </div>
                   <div className="mt-2 mx-auto">
-                     <ButtonLoading 
+                     <ButtonLoading
+                        submit={ true }
                         title={ !pemeriksaanStore.billing_id ? 'Simpan' : 'Ubah Data' }
                         Icon={ !pemeriksaanStore.billing_id ? Save : ClipboardEdit }
                      />

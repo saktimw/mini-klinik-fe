@@ -5,7 +5,7 @@ import SelectOption from "~/components/atoms/SelectOption";
 import { twMerge } from "tailwind-merge";
 
 const Input = ({ 
-   id, name, title, type, placeholder, 
+   id, name, title, type, placeholder, minlength, maxlength,
    focus = false, 
    readonly = false,
    rules = {}
@@ -22,6 +22,8 @@ const Input = ({
             placeholder={ placeholder }
             readOnly={ readonly }
             autoFocus={ focus }
+            minLength={ minlength }
+            maxLength={ maxlength }
             { ...formCtx.register(name, rules && rules)}
          />
          { formCtx.formState.errors[name] && 

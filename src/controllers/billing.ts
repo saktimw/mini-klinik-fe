@@ -1,7 +1,7 @@
 "use client"
 
-import { kunjungan_all } from "~/models/kunjungan";
-import { KunjunganAll } from "~/shared/types/billing_page";
+import { billing_all } from "~/models/billing";
+import { BillingAll } from "~/shared/types/billing_page";
 import { BaseFilter } from "~/shared/types/pasien_page";
 import { useBillingStore } from "~/stores/billing_store";
 import { QueryString, generateQueryString } from "~/utils/query_string";
@@ -19,11 +19,11 @@ export const FetchAllBilling = async () => {
       const filter = generateQueryString(mapqs);
 
       // fetch data
-      const data = await kunjungan_all(filter);
-      let list: KunjunganAll[] = []
+      const data = await billing_all(filter);
+      let list: BillingAll[] = []
       if (data.data) {
          data.data.map((item: any) => {
-            const remap: KunjunganAll = {
+            const remap: BillingAll = {
                pasien: {
                   nama_lengkap: item.nama_lengkap,
                   alamat: item.alamat,

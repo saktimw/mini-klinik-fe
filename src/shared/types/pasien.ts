@@ -1,5 +1,6 @@
 export interface Pasien {
    id?: number;
+   nik?: string;
    nama_lengkap: string;
    alamat: string;
    telp: string;

@@ -15,8 +15,10 @@ const initialState: PemeriksaanState = {
    pemeriksaan_id: undefined,
    ttv_id: null,
    resume_id: null,
-   obat_id: null,
-   billing_id: null
+   billing_id: null,
+   all_history: undefined,
+   history_id: null,
+   history_detail: undefined
 }
 
 export const usePemeriksaanStore = create<PemeriksaanState & PemeriksaanActions>((set, get) => ({
@@ -31,7 +33,6 @@ export const usePemeriksaanStore = create<PemeriksaanState & PemeriksaanActions>
    setPemeriksaanID: (data) => set({ pemeriksaan_id: data }),
    setTtvID: (data) => set({ ttv_id: data }),
    setResumeID: (data) => set({ resume_id: data }),
-   setObatID: (data) => set({ obat_id: data }),
    setBillingID: (data) => set({ billing_id: data }),
    resetFilter: () => set({
       all_filter: initialState.all_filter
@@ -45,7 +46,13 @@ export const usePemeriksaanStore = create<PemeriksaanState & PemeriksaanActions>
    resetPemeriksaan: () => set({
       ttv_id: null,
       resume_id: null,
-      obat_id: null,
       billing_id: null,
-   })
+      history_id: null,
+      all_history: undefined,
+      history_detail: undefined
+   }),
+   setHistoryAll: (data) => set({ all_history: data }),
+   setHistoryID: (data) => set({ history_id: data }),
+   setHistoryDetail: (data) => set({ history_detail: data }),
+   reset: () => set(initialState)
 }))

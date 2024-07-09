@@ -15,12 +15,13 @@ const SelectOption = (props: any) => {
          hideSelectedOptions= { false }
          unstyled
          styles={{ ...stylesConfig, ...validStyles }}
+         { ...props }
       />
    )   
 }
 
-SelectOption.defaultProps = {
-   invalid: false
-}
+// SelectOption.defaultProps = {
+//    invalid: false
+// }
 
 export default SelectOption;

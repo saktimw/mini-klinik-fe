@@ -1,6 +1,5 @@
 import PasienList from "./_contents/pasien_list";
 import FormPasien from "./_contents/form_pasien";
-import { ToastContainer } from "react-toastify";
 
 export default async function Pasien() {   
    return(

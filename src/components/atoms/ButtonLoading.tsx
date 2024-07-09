@@ -2,7 +2,7 @@ import { twMerge } from "tailwind-merge";
 import { ButtonLoadingProps } from "~/shared/types/types";
 
 const ButtonLoading = ({
-   Icon,
+   Icon, onClick,
    title = "Button",
    loading = false,
    buttonStyle = '',
@@ -10,7 +10,7 @@ const ButtonLoading = ({
 }: ButtonLoadingProps) => {
    return (
       <>
-         <button type={ submit ? 'submit' : 'button' } className={  twMerge('base-button-icon', buttonStyle) }>
+         <button type={ submit ? 'submit' : 'button' } className={  twMerge('base-button-icon', buttonStyle) } onClick={ onClick }>
             { loading 
                ? <span className="loading loading-dots"></span>
                : <>{ Icon && <Icon className="button-icon"/> } <span>{ title }</span></>

@@ -5,14 +5,15 @@ export interface PemeriksaanTTV {
    suhu: string;
    tinggi: string;
    berat: string;
-   keluhan: string;
+   spo2: string;
 }
 
 export interface PemeriksaanResume {
    id?: number;
-   anamnesis: string;
+   diagnosis: string;
+   keluhan: string;
    pemeriksaan_fisik: string;
-   tata_laksana: string;
+   resep_obat: string;
    edukasi: string;
 }
 

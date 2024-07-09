@@ -1,7 +1,7 @@
 import { Obat, PemeriksaanResume, PemeriksaanTTV } from "~/shared/types/pemeriksaan";
 import { fetcher } from "~/utils/fetch_api";
 
-const hostname = 'http://localhost:2000/v1/pemeriksaan/';
+const hostname = process.env.apiUrl! + '/pemeriksaan/';
 
 // input pemeriksaan ttv
 export async function post_ttv(data: PemeriksaanTTV) {
@@ -12,7 +12,7 @@ export async function post_ttv(data: PemeriksaanTTV) {
 
    const insert = await fetcher(`${hostname}/ttv`, options);
    try {
-      return insert;      
+      return insert.json();
    } catch (error) {
       return false;
    }
@@ -28,13 +28,13 @@ export async function put_ttv(data: PemeriksaanTTV) {
          berat: data.berat,
          suhu: data.suhu,
          tinggi: data.tinggi,
-         keluhan: data.keluhan,
+         spo2: data.spo2,
       })
    }
 
    try {
       const updated = await fetcher(`${hostname}/ttv/${data.id}`, options);
-      return updated;    
+      return updated.json();
    } catch (error) {
       return false;
    }
@@ -49,7 +49,7 @@ export async function post_resume(data: PemeriksaanResume) {
 
    try {
       const insert = await fetcher(`${hostname}/resume`, options);
-      return insert;
+      return insert.json();
    } catch (error) {
       return false;
    }
@@ -60,50 +60,18 @@ export async function put_resume(data: PemeriksaanResume) {
    const options: RequestInit = {
       method: 'PUT',
       body: JSON.stringify({
-         anamnesis: data.anamnesis, 
-         pemeriksaan_fisik: data.pemeriksaan_fisik, 
-         tata_laksana: data.tata_laksana, 
+         diagnosis: data.diagnosis,
+         keluhan: data.keluhan,
+         pemeriksaan_fisik: data.pemeriksaan_fisik,
+         resep_obat: data.resep_obat,
          edukasi: data.edukasi
       }),
    }
 
    try {
       const updated = await fetcher(`${hostname}/resume/${data.id}`, options);
-      return updated;
+      return updated.json();
    } catch (error) {
       return false;
    }
 }
-
-// input pemeriksaan obat
-export async function post_obat(data: Obat) {
-   const options: RequestInit = {
-      method: 'POST',
-      body: JSON.stringify(data)
-   }
-
-   try {
-      const insert = await fetcher(`${hostname}/obat`, options);
-      return insert;
-   } catch (error) {
-      return false;
-   }
-}
-
-// update pemeriksaan resume
-export async function put_obat(data: Obat) {
-   const options: RequestInit = {
-      method: 'PUT',
-      body: JSON.stringify({
-         obat: data.obat,
-      })
-   }
-
-   try {
-      const updated = await fetcher(`${hostname}/obat/${data.id}`, options);
-      return updated;
-   } catch (error) {
-      return false;
-   }
-}
-

@@ -1,30 +1,97 @@
 "use client"
-import { useEffect } from "react"
+import { useEffect, useReducer, useState } from "react"
 import Pagination from "~/components/common/Pagination"
 import Search from "~/components/common/Search"
 import { FetchAllBilling } from "~/controllers/billing"
 import { useBillingStore } from "~/stores/billing_store"
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import { ChevronDown, Download } from "lucide-react"
+import ButtonIcon from "~/components/atoms/ButtonIcon"
+import ButtonLoading from "~/components/atoms/ButtonLoading"
 
 export default function BillingList() {
    
    const billingStore = useBillingStore()
+   const [fromDate, setFromDate] = useState(new Date());
+   const [toDate, setToDate] = useState(new Date());
    
    useEffect(() => {
       billingStore.resetFilter();
       FetchAllBilling();
    }, [])
 
+   useEffect(() => {
+      if (fromDate > toDate) setToDate(fromDate) 
+   }, [fromDate])
+   
+   useEffect(() => {
+      billingStore.setFilterAll({ 
+         tanggal: new Date(fromDate).toLocaleDateString('fr-CA'),
+         sampai: new Date(toDate).toLocaleDateString('fr-CA') 
+      }) 
+      FetchAllBilling();
+   }, [fromDate, toDate])
+
    let no = 1;
 
    return (
       <div className="base-card">
-         <div className="lg:w-9/12 mx-auto">
-            <Search 
-               onEnter={(v) => {
-                  billingStore.setFilterAll({ keyword: v });
-                  FetchAllBilling();
-               }}
-               placeholder="Ketik untuk mencari pasien [Enter]"
+         <div className="flex justify-center items-center gap-5">
+            <div className="lg:w-5/12">
+               <Search 
+                  onEnter={(v) => {
+                     billingStore.setFilterAll({ keyword: v });
+                     FetchAllBilling();
+                  }}
+                  placeholder="Ketik untuk mencari pasien [Enter]"
+               />
+            </div>
+            <div className="flex items-center group py-3 border-b border-white-stroke mb-3">
+               <DatePicker
+                  selected={ fromDate }
+                  startDate={ fromDate }
+                  endDate={ toDate }
+                  onChange={ (d: any) => {
+                     setFromDate(d);
+                  }}
+                  customInput= { 
+                     <p className="text-sm mx-2 text-slate-400">
+                        { new Date(fromDate).toLocaleDateString('id-ID', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric'
+                     }) }
+                     </p>
+                  }
+                  selectsStart
+               />
+               <p className="text-slate-400">-</p>
+               <DatePicker
+                  selected={ toDate }
+                  startDate={ fromDate }
+                  endDate={ toDate }
+                  minDate={ fromDate }
+                  onChange={ (d: any) => {
+                     setToDate(d)
+                  }}
+                  customInput= { 
+                     <p className="text-sm mx-2 text-slate-400">
+                        { new Date(toDate).toLocaleDateString('id-ID', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric'
+                     }) }
+                     </p>
+                  }
+                  selectsEnd
+               /> 
+               <ChevronDown className="w-[1.5rem] h-[1.5rem] text-slate-400"/>
+            </div>
+            <ButtonLoading 
+               title="Excel"
+               Icon={ Download }
+               buttonStyle="bg-green-500 border-green-400 hover:bg-green-400"
             />
          </div>
          <div className="overflow-x-auto scrollbar">
@@ -55,7 +122,11 @@ export default function BillingList() {
                      : billingStore.billing_all.map((items: any) => (
                         <tr key={ no++ } className="hover">
                            <td className="text-center">
-                              <p className="font-normal">10 November 2023</p>
+                              <p className="font-normal">{ new Date(items.kunjungan.tgl_kunjungan).toLocaleDateString('id-ID', {
+                                 day: "2-digit",
+                                 month: "long",
+                                 year: "numeric"
+                              }) }</p>
                            </td>
                            <td className={`font-semibold -tracking-[-0.015rem] ${items?.pasien.jns_kelamin === 'P' ? 'text-pink-500' : 'text-main' }`}>{ items.pasien.nama_lengkap }</td>
                            <td>{` ${items.pasien.alamat}`}</td>
@@ -63,7 +134,7 @@ export default function BillingList() {
                               (!items.billing.biaya && !items.billing.terbayar) 
                                  ? (
                                     <td className="text-center" colSpan={ 2 }>
-                                       <div className="inline-block rounded-full px-2.5 py-0.5 bg-red-200 text-red-700 font-medium">Belum Bayar</div>
+                                       <div className="inline-block rounded-full px-5 py-0.5 bg-red-200 text-red-700 font-medium">Belum Bayar</div>
                                     </td>
                                  )
                                  : (
@@ -71,7 +142,7 @@ export default function BillingList() {
                                        <td className="text-center">
                                           <p className="text-right">
                                              <span className="text-[0.950rem] font-medium">
-                                                { (items.billing.biaya)?.toLocaleString('id-ID', { 
+                                                { Number(items.billing.biaya)?.toLocaleString('id-ID', { 
                                                    style: 'currency',
                                                    currency: 'IDR'
                                                    }) }
@@ -91,14 +162,16 @@ export default function BillingList() {
                </tbody>
             </table>
          </div>
-         <Pagination  
-            current={ billingStore.all_filter.page }
-            totalPage={ billingStore.all_filter.lastPage }
-            onChangeValue={ (val) => {
-               billingStore.setFilterAll({ page: val })
-               FetchAllBilling(); 
-            }}
-         />
+         <div className="my-4 mx-4">
+            <Pagination  
+               current={ billingStore.all_filter.page }
+               totalPage={ billingStore.all_filter.lastPage }
+               onChangeValue={ (val) => {
+                  billingStore.setFilterAll({ page: val })
+                  FetchAllBilling(); 
+               }}
+            />
+         </div>
       </div>
    )
 }

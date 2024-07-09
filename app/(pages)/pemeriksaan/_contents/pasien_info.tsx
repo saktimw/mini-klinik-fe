@@ -11,6 +11,21 @@ export default function PasienInfo() {
       <div className={`mb-2 base-card ${pasieninfo ? (pasieninfo.pasien.jns_kelamin === "P" ? 'border-pink-500' : 'border-main') : 'border-slate-400'}`}>
          <div className="px-2.5 py-1">
             <div className="flex-column"> 
+               {/* NIK */}
+               <div className="flex items-center">
+                  <div className="flex-none mr-2.5">
+                     <span className="w-[1.1rem] tracking-wide text-slate-400">ID</span>
+                  </div>
+                  <p className="flex-1 text-sm">
+                     <span className="mr-2 border border-slate tracking-wide rounded px-3 py-1 font-semibold bg-slate-100 text-teal-500">
+                        { pasieninfo?.pasien.nomer_rm }
+                     </span>
+                     <span className="text-slate-400">
+                        { pasieninfo?.pasien.nik ?? '-' }
+                     </span>
+                  </p>
+               </div>
+               <hr className="border-white-stroke my-1.5"/>
                {/* Nama */}
                <div className="flex items-center">
                   <div className="flex-none mr-2.5">

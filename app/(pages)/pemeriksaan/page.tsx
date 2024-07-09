@@ -1,26 +1,34 @@
 import PasienInfo from './_contents/pasien_info';
 import KunjunganList from './_contents/kunjungan_list';
-import FormTTV from './_contents/form_ttv';
-import FormResume from './_contents/form_resume';
-import FormResep from './_contents/form_resep';
 import FormBilling from './_contents/form_billing';
+import FormPemeriksaan from './_contents/form_pemeriksaan';
+import { cookies } from 'next/headers';
+import { getCookie } from 'cookies-next';
+import PasienHistory from './_contents/pasien_history';
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0;
 export default function Pemeriksaan() {
+  const role = getCookie('xrole', { cookies })
   
-  return (
+  return role && (
     <>
         <div className="w-full lg:w-3/12 mr-2">
           <PasienInfo />
           <KunjunganList />
         </div>
         <div className="w-full lg:w-6/12 lg:flex flex-col gap-y-2 mr-2">
-          <FormTTV />
-          <FormResume />
+          <FormPemeriksaan role={ String(role) }/>
         </div>
         <div className="w-full lg:flex flex-col gap-y-2 lg:w-3/12">
-          {/* Resep Obat */}
-          <FormResep />
-          <FormBilling />
+          {
+            role === "dokter" && (
+              <>
+                <FormBilling />
+                <PasienHistory />
+              </>
+            )
+          }
         </div>
     </>
   )
