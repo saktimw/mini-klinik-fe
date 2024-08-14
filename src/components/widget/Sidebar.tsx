@@ -22,7 +22,7 @@ export default function Sidebar() {
    }, [])
    
    return (
-      <div className="lg:h-full sm:w-[3.4rem] md:w-[4.4rem] lg:w-[5.4rem] flex flex-col flex-none py-4 border-r border-r-white-stroke bg-white-card overflow-y-auto overflow-x-hidden scrollbar">
+      <div className="lg:h-full sm:w-[4.6rem] md:w-[5.6rem] lg:w-[6.6rem] flex flex-col flex-none py-4 border-r border-r-white-stroke bg-white-card overflow-y-auto overflow-x-hidden scrollbar">
          <div className="flex-none">
             <Image 
                src={ mklogo }
@@ -33,13 +33,16 @@ export default function Sidebar() {
          <hr className="flex-none w-1/2 mx-auto my-4 border-white-stroke"/>
          <ul className="grow flex flex-col justify-start">
             <MenuLink keyID="resume" href="/pemeriksaan"
+               title="pemeriksaan"
                Icon={ BookPlus }
             />
             <MenuLink keyID="pasien" href="/pasien"
+               title="pasien"
                Icon={ Users2 }
             />
             { myrole === "dokter" && (
                <MenuLink keyID="billing" href="/billing"
+                  title="billing"
                   Icon={ Wallet2 }
                />
             )}
@@ -52,18 +55,15 @@ export default function Sidebar() {
          </div>
          {/* users & settings */}
          <ul className="grow flex flex-col justify-end">
-         <li className="my-[0.3rem] py-4 hover:bg-main-lighter hover:cursor-not-allowed">
-            <UserSquare className="w-[1.3rem] h-[1.3rem] mx-auto text-main-typo"/>
-         </li>
-         <li className="my-[0.3rem] py-4 hover:bg-main-lighter hover:cursor-pointer">
-            <ButtonWithConfirm
-               title="Kunjungan"
-               message={`Keluar dari aplikasi ?`}
-               action={ (act) => act && LogoutAction(router)} 
-            >
-               <LogOut className="w-[1.3rem] h-[1.3rem] mx-auto text-main-typo"/>
-            </ButtonWithConfirm>
-         </li>
+            <li className="my-[0.3rem] py-4 hover:bg-main-lighter hover:cursor-pointer">
+               <ButtonWithConfirm
+                  title="Kunjungan"
+                  message={`Keluar dari aplikasi ?`}
+                  action={ (act) => act && LogoutAction(router)} 
+               >
+                  <LogOut className="w-[1.3rem] h-[1.3rem] mx-auto text-main-typo"/>
+               </ButtonWithConfirm>
+            </li>
          </ul>
       </div>
    )

@@ -1,7 +1,7 @@
 "use client"
 import { Save, ClipboardEdit } from 'lucide-react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Input } from '~/components/common/Form';
+import { Input, TextareaInput } from '~/components/common/Form';
 import ButtonLoading from '~/components/atoms/ButtonLoading';
 import { usePemeriksaanStore } from '~/stores/pemeriksaan_store';
 import { Suspense, useEffect } from 'react';
@@ -18,15 +18,22 @@ export default function FormPemeriksaan({ role = "" }: { role: string }) {
       pemeriksaanStore.reset()
    }, [])
 
-   useEffect(() => {      
-      if (pemeriksaanStore.ttv_id && pemeriksaanStore.resume_id) {
+   useEffect(() => {
+      if (!!pemeriksaanStore.ttv_id?.id && !!pemeriksaanStore.resume_id?.id) {
          methods.setValue('act', 'edit')
-      } else if (pemeriksaanStore.ttv_id && !pemeriksaanStore.resume_id) {
+      } else if (!!pemeriksaanStore.ttv_id?.id && !pemeriksaanStore.resume_id?.id) {
          methods.setValue('act', 'saveresume')
       } else {
          methods.setValue('act', 'save')
       }
    }, [pemeriksaanStore.ttv_id])
+
+   useEffect(() => {
+      if (pemeriksaanStore.alergi_id) {
+         methods.setValue('idAlergi', pemeriksaanStore.alergi_id.id);
+         methods.setValue('alergi', pemeriksaanStore.alergi_id.alergi);
+      }
+   }, [pemeriksaanStore.alergi_id])
 
    useEffect(() => {
       if (pemeriksaanStore.pemeriksaan_id) {
@@ -43,7 +50,15 @@ export default function FormPemeriksaan({ role = "" }: { role: string }) {
                <form onSubmit={ methods.handleSubmit((data) => onSubmitPemeriksaan(data, String(role))) }>
                   <Input type="hidden" name="id" />
                   <Input type="hidden" name="act" />
+                  <Input type="hidden" name="idAlergi" />
                   <FormTTV {...methods}/>
+                  <div className="my-1.5">
+                     <TextareaInput title="Alergi"
+                        id="alergi" name="alergi"
+                        rows={ 2 }
+                        onChange={()=>methods.setValue('updateAlergi',true)}
+                     />
+                  </div>
                   { (role && role === "dokter") && (
                      <Suspense>
                         <FormResume { ...methods }/>
@@ -53,7 +68,7 @@ export default function FormPemeriksaan({ role = "" }: { role: string }) {
                   <div className="h-2"></div>
                   <ButtonLoading
                      submit={ true }
-                     title={ !pemeriksaanStore.ttv_id ? 'Simpan' : 'Ubah Data' }
+                     title={ !pemeriksaanStore.ttv_id?.id ? 'Simpan' : 'Ubah Data' }
                      Icon={ false ? Save : ClipboardEdit }
                   />
                </form>

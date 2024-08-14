@@ -2,7 +2,7 @@ import { UseFormReturn } from "react-hook-form";
 import { toast } from "react-toastify";
 import { post_billing, put_billing } from "~/models/billing";
 import { detail_kunjungan, history_all, kunjungan_all } from "~/models/kunjungan";
-import { post_resume, post_ttv, put_resume, put_ttv } from "~/models/pemeriksaan";
+import { post_alergi, post_resume, post_ttv, put_resume, put_ttv } from "~/models/pemeriksaan";
 import { PemeriksaanResume, PemeriksaanTTV } from "~/shared/types/pemeriksaan";
 import { BaseFilter, HistoryDetail, KunjunganAll } from "~/shared/types/pemeriksaan_page";
 import { usePemeriksaanStore } from "~/stores/pemeriksaan_store";
@@ -127,6 +127,7 @@ export const FetchPemeriksaanID = async () => {
       if (data.data) {
          usePemeriksaanStore.getState().setResumeID(data.data.resume);
          usePemeriksaanStore.getState().setTtvID(data.data.ttv);
+         usePemeriksaanStore.getState().setAlergiID(data.data.alergi);
          usePemeriksaanStore.getState().setBillingID(data.data.billing);
       }
       
@@ -175,7 +176,14 @@ export const onSubmitPemeriksaan = async (data: any, role: string) => {
          tinggi: newdata.tinggi,
          spo2: newdata.spo2
       }
-      
+
+      if(newdata.updateAlergi){
+         const alergi:any = {
+            id:newdata.idAlergi,
+            alergi:newdata.alergi}
+         await post_alergi(alergi)
+      }
+
       switch(role) {
          case "dokter": {
             resume = {
@@ -318,10 +326,6 @@ export const onSubmitBilling = async (data: any) => {
       toast.error('Terjadi kesalahan saat pemrosesan data !', { position: 'top-center' });
    }
    
-}
-
-export const FetchAllHistory = async () => {
-
 }
 
 export const onSelectHistory = async (data: any) => {

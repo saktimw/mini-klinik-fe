@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { FetchAllPasien, addKunjungan } from '~/controllers/pasien';
 import { usePasienStore } from '~/stores/pasien_store';
 import Search from '~/components/common/Search';
-import Pagination from '~/components/common/Pagination';
+import { Pagination, PaginationInfo } from '~/components/common/Pagination';
 import ButtonWithConfirm from '~/components/common/ButtonWithConfirm';
 
 export default function PasienList() {
@@ -94,14 +94,23 @@ export default function PasienList() {
                </tbody>
             </table>
          </div>
-         <Pagination  
-            current={ pasienStore.all_filter.page }
-            totalPage={ pasienStore.all_filter.lastPage }
-            onChangeValue={ (val) => {
-               pasienStore.setFilterAll({ page: val })
-               FetchAllPasien(); 
-            }}
-         />
+         <div className="flex items-center my-1.5">
+            <Pagination  
+               current={ pasienStore.all_filter.page }
+               totalPage={ pasienStore.all_filter.lastPage }
+               totalData={ pasienStore.all_filter.total }
+               onChangeValue={ (val) => {
+                  pasienStore.setFilterAll({ page: val })
+                  FetchAllPasien(); 
+               }}
+            />
+            <div className="border-l border-slate-200 h-10 mx-2.5"></div>
+            <PaginationInfo 
+               current={ pasienStore.all_filter.page }
+               totalPage={ pasienStore.all_filter.lastPage }
+               totalData={ pasienStore.all_filter.total }
+            />
+         </div>
       </>  
    )
 }

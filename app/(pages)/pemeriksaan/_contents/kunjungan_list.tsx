@@ -3,7 +3,7 @@ import { UserPlus } from 'lucide-react'
 import Link from 'next/link';
 import { useEffect } from 'react';
 import ButtonWithDate from '~/components/common/ButtonWithDate'
-import Pagination from '~/components/common/Pagination';
+import { Pagination } from '~/components/common/Pagination';
 import Search from '~/components/common/Search';
 import { FetchAllKunjungan, FetchPemeriksaanID } from '~/controllers/pemeriksaan';
 import { usePemeriksaanStore } from '~/stores/pemeriksaan_store'

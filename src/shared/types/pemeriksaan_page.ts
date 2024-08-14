@@ -1,7 +1,7 @@
 import { Billing } from "./billing"
 import { Kunjungan } from "./kunjungan"
 import { Pasien } from "./pasien"
-import { PemeriksaanResume, PemeriksaanTTV } from "./pemeriksaan"
+import { PemeriksaanResume, PemeriksaanTTV, PemeriksaanAlergi } from "./pemeriksaan"
 
 export interface BaseFilter {
    page: number,
@@ -31,6 +31,7 @@ export interface PemeriksaanState {
    ttv_id: PemeriksaanTTV | null;
    resume_id: PemeriksaanResume | null;
    billing_id: Billing | null;
+   alergi_id: PemeriksaanAlergi | null;
    all_history: any[] | undefined
    history_id: any | null;
    history_detail: HistoryDetail | undefined
@@ -43,6 +44,7 @@ export interface PemeriksaanActions {
    setPemeriksaanID: (id: any) => void;
    setTtvID: (data: any) => void;
    setResumeID: (data: any) => void;
+   setAlergiID: (data: any) => void;
    setBillingID: (data: any) => void;
    setHistoryAll: (data: any) => void;
    setHistoryID: (data: any) => void;

@@ -68,7 +68,8 @@ interface TextareaProps {
    readonly?: boolean;
    rows?: number;
    cols?: number;
-   rules?: Object
+   rules?: Object;
+   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 interface CheckInputProps {
@@ -97,6 +98,7 @@ interface ButtonConfirmProps {
 
 interface MenuLinkProps {
    keyID: string;
+   title?: string;
    Icon: LucideIcon;
    href: string;
    onClick?: () => void;
@@ -110,6 +112,7 @@ interface SearchProps {
 interface PaginatonProps {
    current: number;
    totalPage: number;
+   totalData?: number;
    onChangeValue: (v: any) => void
 }
 

@@ -55,8 +55,8 @@ export default function FormBilling() {
                   <div className="mt-2 mx-auto">
                      <ButtonLoading
                         submit={ true }
-                        title={ !pemeriksaanStore.billing_id ? 'Simpan' : 'Ubah Data' }
-                        Icon={ !pemeriksaanStore.billing_id ? Save : ClipboardEdit }
+                        title={ !pemeriksaanStore.billing_id?.id ? 'Simpan' : 'Ubah Data' }
+                        Icon={ !pemeriksaanStore.billing_id?.id ? Save : ClipboardEdit }
                      />
                   </div>
                </form>

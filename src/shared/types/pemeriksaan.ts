@@ -17,6 +17,11 @@ export interface PemeriksaanResume {
    edukasi: string;
 }
 
+export interface PemeriksaanAlergi {
+   id?: number;
+   alergi:string;
+}
+
 export interface Obat {
    id?: number;
    obat: string;

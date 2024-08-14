@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useReducer, useState } from "react"
-import Pagination from "~/components/common/Pagination"
+import { Pagination } from "~/components/common/Pagination"
 import Search from "~/components/common/Search"
 import { FetchAllBilling, FetchDownloadExcel } from "~/controllers/billing"
 import { useBillingStore } from "~/stores/billing_store"

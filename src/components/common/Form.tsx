@@ -69,7 +69,8 @@ const TextareaInput = ({
    id, name, title, placeholder, cols,
    rows = 3,
    readonly = false,
-   rules = {}
+   rules = {},
+   ...rest
 }: TextareaProps) => {
       const formCtx = useFormContext();
    return (
@@ -83,6 +84,7 @@ const TextareaInput = ({
             cols={ cols }
             rows={ rows }
             { ...formCtx.register(name, rules && rules)}
+            {...rest}
          ></textarea>
          { formCtx.formState.errors[name] && 
             <p className="base-error-message">

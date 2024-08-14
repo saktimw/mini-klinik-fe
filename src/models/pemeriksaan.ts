@@ -1,7 +1,7 @@
-import { Obat, PemeriksaanResume, PemeriksaanTTV } from "~/shared/types/pemeriksaan";
+import { Obat, PemeriksaanAlergi, PemeriksaanResume, PemeriksaanTTV } from "~/shared/types/pemeriksaan";
 import { fetcher } from "~/utils/fetch_api";
 
-const hostname = process.env.apiUrl! + '/pemeriksaan/';
+const hostname = process.env.apiUrl! + '/pemeriksaan';
 
 // input pemeriksaan ttv
 export async function post_ttv(data: PemeriksaanTTV) {
@@ -71,6 +71,21 @@ export async function put_resume(data: PemeriksaanResume) {
    try {
       const updated = await fetcher(`${hostname}/resume/${data.id}`, options);
       return updated.json();
+   } catch (error) {
+      return false;
+   }
+}
+
+// input pemeriksaan Alergi
+export async function post_alergi(data: PemeriksaanAlergi) {
+   const options: RequestInit = {
+      method: 'POST',
+      body: JSON.stringify(data)
+   }
+
+   try {
+      const insert = await fetcher(`${hostname}/alergi`, options);
+      return insert.json();
    } catch (error) {
       return false;
    }
