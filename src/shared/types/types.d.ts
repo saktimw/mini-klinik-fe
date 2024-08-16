@@ -43,7 +43,8 @@ interface InputProps {
    placeholder?: string;
    readonly?: boolean;
    focus?: boolean;
-   rules?: Object
+   rules?: Object;
+   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 interface InputNumberProps {

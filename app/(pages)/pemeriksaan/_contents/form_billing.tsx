@@ -44,6 +44,13 @@ export default function FormBilling() {
                         rules={{
                            required: true
                         }}
+                        onChange={(e)=>{
+                           if(Number(e.target.value)>0){
+                              methods.setValue('terbayar',true)
+                           }else{
+                              methods.setValue('terbayar',false)
+                           }
+                        }}
                      />
                      <div className="my-2.5">
                         <CheckInput type="checkbox" label="Sudah terbayar ?"

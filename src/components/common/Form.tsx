@@ -8,7 +8,8 @@ const Input = ({
    id, name, title, type, placeholder, minlength, maxlength,
    focus = false, 
    readonly = false,
-   rules = {}
+   rules = {},
+   ...rest
 }: InputProps) => {
       const formCtx = useFormContext();
       
@@ -25,6 +26,7 @@ const Input = ({
             minLength={ minlength }
             maxLength={ maxlength }
             { ...formCtx.register(name, rules && rules)}
+            {...rest}
          />
          { formCtx.formState.errors[name] && 
             <p className="base-error-message">
