@@ -9,7 +9,7 @@ export default function FormTTV(methods: UseFormReturn) {
    const pemeriksaanStore = usePemeriksaanStore();
 
    useEffect(() => {
-      if (pemeriksaanStore.ttv_id) {
+      if (pemeriksaanStore.ttv_id && pemeriksaanStore.ttv_id.id !== null) {
          setDatatoForm(methods, pemeriksaanStore.ttv_id);}
    }, [pemeriksaanStore.ttv_id])
 

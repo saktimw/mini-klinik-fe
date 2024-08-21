@@ -164,7 +164,7 @@ export const onSubmitPemeriksaan = async (data: any, role: string) => {
       })
       return;
    }
-
+   
    try {
 
       ttv = {
@@ -194,7 +194,7 @@ export const onSubmitPemeriksaan = async (data: any, role: string) => {
                resep_obat: newdata.resep_obat,
                edukasi: newdata.edukasi,
             }
-
+            
             switch (newdata.act) {
                case "save": {
                   const saveTTV = await post_ttv(ttv);

@@ -10,7 +10,7 @@ export default function FormResume(methods: UseFormReturn) {
    const pemeriksaanStore = usePemeriksaanStore();
 
    useEffect(() => {
-      if (pemeriksaanStore.resume_id) {
+      if (pemeriksaanStore.resume_id && pemeriksaanStore.resume_id.id !== null) {
          setDatatoForm(methods, pemeriksaanStore.resume_id);}
    }, [pemeriksaanStore.resume_id])
 
