@@ -4,6 +4,7 @@ import { PasienActions, PasienState } from "~/shared/types/pasien_page";
 const initialState: PasienState = {
    pasien_all: [],
    all_loading: false,
+   save_loading: false,
    all_filter: {
       page: 1,
       perPage: 10,
@@ -28,6 +29,7 @@ export const usePasienStore = create<PasienState & PasienActions>((set, get) => 
    setID: (id) => set({ id: id }),
    setPasienID: (data) => set({ pasien_id: data }),
    setLoading: (load) => set({ all_loading: load }),
+   setSaveLoading: (load) => set({ all_loading: load }),
    resetFilter: () => set({ all_filter: initialState.all_filter }),
    setFormAction: (act) => set({ form_action: act })
 }))

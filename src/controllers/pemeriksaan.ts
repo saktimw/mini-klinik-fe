@@ -166,6 +166,7 @@ export const onSubmitPemeriksaan = async (data: any, role: string) => {
    }
    
    try {
+      usePemeriksaanStore.getState().setSaveLoading(true);
 
       ttv = {
          id: newdata.id,
@@ -272,6 +273,8 @@ export const onSubmitPemeriksaan = async (data: any, role: string) => {
       
    } catch (error) {
       toast.error('Terjadi kesalahan saat pemrosesan data !', { position: 'top-center' });
+   } finally {
+      usePemeriksaanStore.getState().setSaveLoading(false);
    }
    
 }
@@ -287,10 +290,11 @@ export const onSubmitBilling = async (data: any) => {
    }
    
    try {
-      switch (data.act) {
+      usePemeriksaanStore.getState().setBillingLoading(true);
+      switch (data.actbill) {
          case "save": {
             const created = await post_billing({
-               id: data.id,
+               id: data.idbill,
                biaya: data.biaya,
                terbayar: data.terbayar
             });
@@ -302,7 +306,7 @@ export const onSubmitBilling = async (data: any) => {
             break;
          case "edit": {
             const update = await put_billing({
-               id: data.id,
+               id: data.idbill,
                biaya: data.biaya,
                terbayar: data.terbayar
             });
@@ -324,6 +328,8 @@ export const onSubmitBilling = async (data: any) => {
       
    } catch (error) {
       toast.error('Terjadi kesalahan saat pemrosesan data !', { position: 'top-center' });
+   } finally {
+      usePemeriksaanStore.getState().setBillingLoading(false);
    }
    
 }

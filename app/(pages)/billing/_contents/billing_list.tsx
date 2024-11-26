@@ -149,7 +149,7 @@ export default function BillingList() {
                                                 { Number(items.billing.biaya)?.toLocaleString('id-ID', { 
                                                    style: 'currency',
                                                    currency: 'IDR'
-                                                   }) }
+                                                   }).slice(0, -3) }
                                              </span>
                                           </p>
                                        </td>

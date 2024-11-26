@@ -27,6 +27,8 @@ export interface PemeriksaanState {
    kunjungan_all: KunjunganAll[];
    all_filter: BaseFilter;
    all_loading: boolean;
+   save_loading: boolean;
+   billing_loading: boolean;
    pemeriksaan_id: KunjunganAll | undefined;
    ttv_id: PemeriksaanTTV | null;
    resume_id: PemeriksaanResume | null;
@@ -41,6 +43,8 @@ export interface PemeriksaanActions {
    setFilterAll: (data: Object) => void;
    setKunjunganAll: (data: any) => void;
    setLoading: (loading: boolean) => void;
+   setSaveLoading: (loading: boolean) => void;
+   setBillingLoading: (loading: boolean) => void;
    setPemeriksaanID: (id: any) => void;
    setTtvID: (data: any) => void;
    setResumeID: (data: any) => void;

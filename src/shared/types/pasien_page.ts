@@ -12,6 +12,7 @@ export interface PasienState {
    pasien_all: Pasien[];
    pasien_id: Pasien | undefined;
    all_loading: boolean;
+   save_loading: boolean;
    all_filter: BaseFilter
    id: number;
    form_action: 'save' | 'update';
@@ -24,5 +25,6 @@ export interface PasienActions {
    setPasienID: (data: any) => void;
    setFormAction: (act: 'save' | 'update') => void;
    setLoading: (loading: boolean) => void;
+   setSaveLoading: (loading: boolean) => void;
    resetFilter: () => void;
 }

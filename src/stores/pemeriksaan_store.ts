@@ -12,6 +12,8 @@ const initialState: PemeriksaanState = {
       tanggal: new Date().toLocaleDateString('fr-CA')
    },
    all_loading: false,
+   save_loading: false,
+   billing_loading: false,
    pemeriksaan_id: undefined,
    ttv_id: null,
    resume_id: null,
@@ -31,6 +33,8 @@ export const usePemeriksaanStore = create<PemeriksaanState & PemeriksaanActions>
       kunjungan_all: data
    }),
    setLoading: (loading) => set({ all_loading: loading }),
+   setSaveLoading: (loading) => set({ save_loading: loading }),
+   setBillingLoading: (loading) => set({ billing_loading: loading }),
    setPemeriksaanID: (data) => set({ pemeriksaan_id: data }),
    setTtvID: (data) => set({ ttv_id: data }),
    setResumeID: (data) => set({ resume_id: data }),

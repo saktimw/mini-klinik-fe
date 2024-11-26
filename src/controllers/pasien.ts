@@ -74,6 +74,7 @@ export const onSaveData = async (data: any, methods: UseFormReturn) => {
    let message;
    
    try {
+      usePasienStore.getState().setSaveLoading(true);
       switch (formAct) {
          case "save": {
             const created = await post_pasien({
@@ -118,6 +119,8 @@ export const onSaveData = async (data: any, methods: UseFormReturn) => {
       
    } catch (error) {
       toast.error('Terjadi kesalahan saat pemrosesan data !', { position: 'top-center' });
+   } finally {
+      usePasienStore.getState().setSaveLoading(false);
    }
    
 }

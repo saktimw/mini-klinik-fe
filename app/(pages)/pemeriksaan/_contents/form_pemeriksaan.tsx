@@ -68,6 +68,7 @@ export default function FormPemeriksaan({ role = "" }: { role: string }) {
                   <div className="h-2"></div>
                   <ButtonLoading
                      submit={ true }
+                     loading={ pemeriksaanStore.save_loading }
                      title={ !pemeriksaanStore.ttv_id?.id ? 'Simpan' : 'Ubah Data' }
                      Icon={ false ? Save : ClipboardEdit }
                   />
