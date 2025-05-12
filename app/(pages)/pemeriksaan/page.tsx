@@ -17,19 +17,7 @@ export default function Pemeriksaan() {
           <PasienInfo />
           <KunjunganList />
         </div>
-        <div className="w-full lg:w-6/12 lg:flex flex-col gap-y-2 mr-2">
-          <FormPemeriksaan role={ String(role) }/>
-        </div>
-        <div className="w-full lg:flex flex-col gap-y-2 lg:w-3/12">
-          {
-            role === "dokter" && (
-              <>
-                <FormBilling />
-                <PasienHistory />
-              </>
-            )
-          }
-        </div>
+        <FormPemeriksaan role={ String(role) }/>
     </>
   )
 }

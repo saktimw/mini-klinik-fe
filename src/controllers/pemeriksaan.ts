@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { post_billing, put_billing } from "~/models/billing";
 import { detail_kunjungan, history_all, kunjungan_all } from "~/models/kunjungan";
 import { post_alergi, post_resume, post_ttv, put_resume, put_ttv } from "~/models/pemeriksaan";
+import { Billing } from "~/shared/types/billing";
 import { PemeriksaanResume, PemeriksaanTTV } from "~/shared/types/pemeriksaan";
 import { BaseFilter, HistoryDetail, KunjunganAll } from "~/shared/types/pemeriksaan_page";
 import { usePemeriksaanStore } from "~/stores/pemeriksaan_store";
@@ -15,7 +16,7 @@ export const FetchAllKunjungan = async () => {
       usePemeriksaanStore.getState().setLoading(true);
       // filter data
       const allFilterObj = usePemeriksaanStore.getState().all_filter;
-      const mapqs = Object.keys(allFilterObj).map((key) => {       
+      const mapqs = Object.keys(allFilterObj).map((key) => {
          const map: QueryString = { name: String(key), value: String(allFilterObj[key as keyof BaseFilter]) }
          return map;
       })
@@ -68,24 +69,24 @@ export const FetchAllKunjungan = async () => {
          }
       }
 
-       // tampilkan loading
-       usePemeriksaanStore.getState().setLoading(false);
+      // tampilkan loading
+      usePemeriksaanStore.getState().setLoading(false);
 
    } catch (error: any) {
       console.log(error);
-      
+
    }
 }
 
 export const FetchPemeriksaanID = async () => {
-   
+
    usePemeriksaanStore.getState().resetPemeriksaan();
 
    try {
       // mengambil detail kunjungan berdasarkan id kunjungan
       const idkunjungan = Number(usePemeriksaanStore.getState().pemeriksaan_id?.kunjungan.id)
       const data = await detail_kunjungan(idkunjungan);
-      
+
       const idpasien = Number(usePemeriksaanStore.getState().pemeriksaan_id?.kunjungan.id_pasien);
       const history = await history_all(idpasien);
 
@@ -110,8 +111,8 @@ export const FetchPemeriksaanID = async () => {
          const mapdetail: HistoryDetail = {
             resume: detail.data.resume,
             ttv: detail.data.ttv
-         } 
-         
+         }
+
          usePemeriksaanStore.getState().setHistoryAll(historyList);
          usePemeriksaanStore.getState().setHistoryID({
             label: new Date(last.tgl_kunjungan).toLocaleDateString('id-ID', {
@@ -123,14 +124,14 @@ export const FetchPemeriksaanID = async () => {
          });
          usePemeriksaanStore.getState().setHistoryDetail(mapdetail);
       }
-      
+
       if (data.data) {
          usePemeriksaanStore.getState().setResumeID(data.data.resume);
          usePemeriksaanStore.getState().setTtvID(data.data.ttv);
          usePemeriksaanStore.getState().setAlergiID(data.data.alergi);
          usePemeriksaanStore.getState().setBillingID(data.data.billing);
       }
-      
+
    } catch (error: any) {
       console.log(error);
    }
@@ -141,12 +142,12 @@ export const setDatatoForm = (methods: UseFormReturn, stateData: any) => {
       methods.clearErrors();
       if (stateData) {
          const data: any = stateData;
-         
-         for (const k in data) {  
+
+         for (const k in data) {
             methods.setValue(k, data[k])
          }
       }
-      
+
    } catch (error: any) {
       console.log(error);
    }
@@ -156,7 +157,13 @@ export const onSubmitPemeriksaan = async (data: any, role: string) => {
    const newdata: any = trimData(data);
    let ttv: PemeriksaanTTV;
    let resume: PemeriksaanResume;
+   let billing: Billing;
    let message;
+
+   let alergiAct: any
+   let resumeAct: any;
+   let ttvAct: any;
+   let billingAct: any;
 
    if (!usePemeriksaanStore.getState().pemeriksaan_id) {
       toast.error('Silahkan Pilih Pasien !', {
@@ -164,12 +171,11 @@ export const onSubmitPemeriksaan = async (data: any, role: string) => {
       })
       return;
    }
-   
+
    try {
       usePemeriksaanStore.getState().setSaveLoading(true);
 
       ttv = {
-         id: newdata.id,
          tensi_sistole: newdata.tensi_sistole,
          tensi_diastole: newdata.tensi_diastole,
          berat: newdata.berat,
@@ -178,91 +184,73 @@ export const onSubmitPemeriksaan = async (data: any, role: string) => {
          spo2: newdata.spo2
       }
 
-      if(newdata.updateAlergi){
-         const alergi:any = {
-            id:newdata.idAlergi,
-            alergi:newdata.alergi}
-         await post_alergi(alergi)
+      const alergi: any = {
+         id: newdata.idPasien,
+         alergi: newdata.alergi
       }
 
-      switch(role) {
+      resume = {
+         diagnosis: newdata.diagnosis,
+         keluhan: newdata.keluhan,
+         pemeriksaan_fisik: newdata.pemeriksaan_fisik,
+         resep_obat: newdata.resep_obat,
+         edukasi: newdata.edukasi,
+      }
+
+      billing = {
+         biaya: newdata.biaya,
+         terbayar: newdata.terbayar,
+      }
+
+      switch (role) {
          case "dokter": {
-            resume = {
-               id: newdata.id,
-               diagnosis: newdata.diagnosis,
-               keluhan: newdata.keluhan,
-               pemeriksaan_fisik: newdata.pemeriksaan_fisik,
-               resep_obat: newdata.resep_obat,
-               edukasi: newdata.edukasi,
+            // ALergi
+            alergiAct = await post_alergi(alergi);
+            // RESUME
+            if (!!newdata.idResume === false) {
+               resumeAct = await post_resume({ ...resume, id: newdata.id });
+            } else {
+               resumeAct = await put_resume({ ...resume, id: newdata.idResume });
             }
-            
-            switch (newdata.act) {
-               case "save": {
-                  const saveTTV = await post_ttv(ttv);
-                  const saveResume = await post_resume(resume);
-
-                  const save = [saveTTV.status, saveResume.status];
-
-                  if (save.every(v => v === 'Created')) {
-                     message = "Berhasil menyimpan pemeriksaan"
-                  } else {
-                     toast.error("Beberapa data gagal tersimpan", { position: 'top-center' });
-                     return;
-                  }
-               }
-                  break;
-               case "edit": {
-                  const updateTTV = await put_ttv(ttv);
-                  const updateResume = await put_resume(resume);
-                  const update = [updateTTV.status, updateResume.status];
-
-                  if (update.every(v => v === 'Updated')) {
-                     message = "Berhasil memperbarui data"
-                  } else {
-                     toast.error("Beberapa data gagal terupdate", { position: 'top-center' });
-                     return;
-                  }
-               }
-                  break;
-               case "saveresume": {
-                  const updateTTV = await put_ttv(ttv);
-                  const saveResume = await post_resume(resume);
-
-                  if (updateTTV.status === "Updated" && saveResume.status === "Created") {
-                     message = "Berhasil memperbarui data"
-                  } else {
-                     toast.error("Beberapa data gagal terupdate", { position: 'top-center' });
-                     return;
-                  }
-               }
-                  break;
+            // TTV
+            if (!!newdata.idTtv === false) {
+               ttvAct = await post_ttv({ ...ttv, id: newdata.id });
+            } else {
+               ttvAct = await put_ttv({ ...ttv, id: newdata.idTtv });
             }
+            // Billing
+            if (!!newdata.idBilling === false) {
+               billingAct = await post_billing({ ...billing, id: newdata.id });
+            } else {
+               billingAct = await put_billing({ ...billing, id: newdata.idBilling });
+            }
+
+            const actionRes = [alergiAct.status, resumeAct.status, ttvAct.status, billingAct.status];
+            console.log(actionRes);
+
+            if (actionRes.every(v => ['Created', 'Updated'].includes(v))) {
+               message = "Berhasil menyimpan pemeriksaan"
+            } else {
+               toast.error("Beberapa data gagal tersimpan", { position: 'top-center' });
+               return;
+            }
+
          }
             break;
          case 'admin': {
-            switch (newdata.act) {
-               case "save": {
-                  const saveTTV = await post_ttv(ttv);
+            // TTV
+            if (!!newdata.idTtv === false) {
+               ttvAct = await post_ttv({ ...ttv, id: newdata.id });
+            } else {
+               ttvAct = await put_ttv({ ...ttv, id: newdata.idTtv });
+            }
 
-                  if (saveTTV.status === 'Created') {
-                     message = "Berhasil menyimpan pemeriksaan"
-                  } else {
-                     toast.error(saveTTV.message, { position: 'top-center' });
-                     return;
-                  }
-               }
-                  break;
-               case "edit": {
-                  const updateTTV = await put_ttv(ttv);
-
-                  if (updateTTV.status === 'Updated') {
-                     message = "Berhasil memperbarui data"
-                  } else {
-                     toast.error(updateTTV.message, { position: 'top-center' });
-                     return;
-                  }
-               }
-                  break;
+            const actionRes = [ttvAct.status];
+            if (actionRes.every(v => ['Created', 'Updated'].includes(v))) {
+               message = "Berhasil menyimpan pemeriksaan"
+            } else {
+               toast.error("Beberapa data gagal tersimpan", { position: 'top-center' });
+               return;
             }
          }
             break;
@@ -270,13 +258,13 @@ export const onSubmitPemeriksaan = async (data: any, role: string) => {
 
       FetchPemeriksaanID();
       toast.success(message, { position: 'top-center' });
-      
+
    } catch (error) {
       toast.error('Terjadi kesalahan saat pemrosesan data !', { position: 'top-center' });
    } finally {
       usePemeriksaanStore.getState().setSaveLoading(false);
    }
-   
+
 }
 
 export const onSubmitBilling = async (data: any) => {
@@ -288,7 +276,7 @@ export const onSubmitBilling = async (data: any) => {
       })
       return;
    }
-   
+
    try {
       usePemeriksaanStore.getState().setBillingLoading(true);
       switch (data.actbill) {
@@ -311,8 +299,8 @@ export const onSubmitBilling = async (data: any) => {
                terbayar: data.terbayar
             });
 
-            switch(update.status) {
-               case "Updated": 
+            switch (update.status) {
+               case "Updated":
                   message = "Berhasil memperbarui data"
                   break;
                case "Not Updated": {
@@ -325,24 +313,24 @@ export const onSubmitBilling = async (data: any) => {
       }
       FetchPemeriksaanID();
       toast.success(message, { position: 'top-center' });
-      
+
    } catch (error) {
       toast.error('Terjadi kesalahan saat pemrosesan data !', { position: 'top-center' });
    } finally {
       usePemeriksaanStore.getState().setBillingLoading(false);
    }
-   
+
 }
 
 export const onSelectHistory = async (data: any) => {
    usePemeriksaanStore.getState().setHistoryID(data);
-   
+
    const id = data.value;
    const detail = await detail_kunjungan(id);
    const mapdetail: HistoryDetail = {
       resume: detail.data.resume,
       ttv: detail.data.ttv
-   } 
-   
+   }
+
    usePemeriksaanStore.getState().setHistoryDetail(mapdetail);
 }
