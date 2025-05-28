@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import '~/assets/styles/base.css';
+import '../src/assets/styles/base.css';
+// import './global.css';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,7 +17,6 @@ export const metadata: Metadata = {
   category: "medical",
   description: 'Electronic Clinic Management',
   creator: 'Sakti Mundra W, Noor Qomaruddin',
-  viewport: 'width=device-width, initial-scale=1', 
 }
 
 export default function RootLayout({
@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light">
       <body className={`${inter.className} bg-base-background`}>
         <main className="lg:max-h-screen lg:h-screen lg:w-full flex flex-nowrap items-start">
           {children}

@@ -31,7 +31,7 @@ export default function Home() {
 
    return (
       <div className="relative w-full h-screen flex justify-center items-center">
-         <div className="stats shadow">
+         <div className="stats shadow-sm">
             <div className="stat">
                <div className="stat-figure text-orange-400">
                   <Users2 className="w-10 h-10"/>

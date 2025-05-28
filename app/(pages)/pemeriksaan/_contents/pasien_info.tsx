@@ -17,7 +17,7 @@ export default function PasienInfo() {
                      <span className="w-[1.1rem] tracking-wide text-slate-400">ID</span>
                   </div>
                   <p className="flex-1 text-sm">
-                     <span className="mr-2 border border-slate tracking-wide rounded px-3 py-1 font-semibold bg-slate-100 text-teal-500">
+                     <span className="mr-2 border border-slate tracking-wide rounded-sm px-3 py-1 font-semibold bg-slate-100 text-teal-500">
                         { pasieninfo?.pasien.nomer_rm }
                      </span>
                      <span className="text-slate-400">

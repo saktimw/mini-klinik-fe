@@ -20,7 +20,7 @@ export default function Header() {
    }, [])
 
    return (
-      <div className="sticky top-0 z-50 lg:w-full bg-white-card p-2 px-2.5 flex justify-between shadow-sm">
+      <div className="sticky top-0 z-50 lg:w-full bg-white-card p-2 px-2.5 flex justify-between shadow-xs">
          <p className="font-semibold text-main text-xl mx-3 capitalize">{ headerMeta.title }
          { headerMeta.subtitle !== null && (
             <span className="text-sm text-secondary-typo font-light"> / { headerMeta.subtitle }</span>

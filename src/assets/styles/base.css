@@ -1,10 +1,37 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "daisyui" {
+    theme: light --default, dark --prefersdark;
+}
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@plugin "daisyui/theme" {
+    name: "light";
+    default: true;
+    --color-primary: '#10bbe5';
+    --color-secondary: '#10bbe5';
+}
+
+/* kustom dark theme */
+@plugin "daisyui/theme" {
+    name: "dark";
+    prefersdark: true;
+    --color-primary: '#10bbe5';
+    --color-secondary: '#10bbe5';
+}
+
+@theme {
+    --color-white-card: #fefefe;
+    --color-white-stroke: #ededed;
+    --color-base-background: #f8f8f8;
+    --color-main: #10bbe5;
+    --color-main-lighter: #f3f5ff;
+    --color-main-typo: #424642;
+    --color-secondary-typo: #676D86;
+}
 
 @layer components {
     .scrollbar::-webkit-scrollbar {
-        @apply w-2 bg-base-background;
+        @apply w-2 bg-(--base-background);
     }
 
     .scrollbar::-webkit-scrollbar-thumb {
@@ -55,7 +82,7 @@
 
     /* button */
     .base-button {
-        @apply px-3.5 py-1 bg-main text-sm tracking-wide font-medium border-2 border-blue-300 rounded-sm capitalize text-white;
+        @apply px-3.5 py-1 bg-main text-sm tracking-wide font-medium border-2 border-blue-300 rounded-xs capitalize text-white;
     }
 
     .base-button-icon {
